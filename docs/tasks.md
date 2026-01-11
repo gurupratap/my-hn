@@ -89,24 +89,24 @@
 | 1.2.8 | Create `tests/` directory | milestones M1.2 | ✅ |
 | 1.2.9 | Add `.gitkeep` to empty directories | milestones M1.2 | ✅ |
 
-### M1.3 — Testing Infrastructure Setup
+### M1.3 — Testing Infrastructure Setup ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 1.3.1 | Install Jest: `npm install -D jest @types/jest` | milestones M1.3 |
-| 1.3.2 | Install ts-jest: `npm install -D ts-jest` | milestones M1.3 |
-| 1.3.3 | Install React Testing Library: `npm install -D @testing-library/react @testing-library/jest-dom` | milestones M1.3 |
-| 1.3.4 | Install jest-environment-jsdom: `npm install -D jest-environment-jsdom` | milestones M1.3 |
-| 1.3.5 | Install MSW: `npm install -D msw` | milestones M1.3 |
-| 1.3.6 | Create `jest.config.js` with Next.js configuration | milestones M1.3 |
-| 1.3.7 | Create `jest.setup.ts` with Testing Library and MSW setup | milestones M1.3 |
-| 1.3.8 | Create `mocks/handlers.ts` with empty handlers array | milestones M1.3 |
-| 1.3.9 | Create `mocks/server.ts` with MSW setupServer | milestones M1.3 |
-| 1.3.10 | Add `"test": "jest"` script to `package.json` | milestones M1.3 |
-| 1.3.11 | Add `"test:watch": "jest --watch"` script to `package.json` | milestones M1.3 |
-| 1.3.12 | Add `"test:coverage": "jest --coverage"` script to `package.json` | milestones M1.3 |
-| 1.3.13 | Create sample test file to verify Jest runs | milestones M1.3 |
-| 1.3.14 | Run `npm test` and verify it passes | milestones M1.3 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 1.3.1 | Install Jest: `npm install -D jest @types/jest` | milestones M1.3 | ✅ |
+| 1.3.2 | Install ts-jest: `npm install -D ts-jest` | milestones M1.3 | ✅ |
+| 1.3.3 | Install React Testing Library: `npm install -D @testing-library/react @testing-library/jest-dom` | milestones M1.3 | ✅ |
+| 1.3.4 | Install jest-environment-jsdom: `npm install -D jest-environment-jsdom` | milestones M1.3 | ✅ |
+| 1.3.5 | Install MSW: `npm install -D msw` | milestones M1.3 | ✅ |
+| 1.3.6 | Create `jest.config.js` with Next.js configuration | milestones M1.3 | ✅ |
+| 1.3.7 | Create `jest.setup.ts` with Testing Library and MSW setup | milestones M1.3 | ✅ |
+| 1.3.8 | Create `mocks/handlers.ts` with empty handlers array | milestones M1.3 | ✅ |
+| 1.3.9 | Create `mocks/server.ts` with MSW setupServer | milestones M1.3 | ✅ |
+| 1.3.10 | Add `"test": "jest"` script to `package.json` | milestones M1.3 | ✅ |
+| 1.3.11 | Add `"test:watch": "jest --watch"` script to `package.json` | milestones M1.3 | ✅ |
+| 1.3.12 | Add `"test:coverage": "jest --coverage"` script to `package.json` | milestones M1.3 | ✅ |
+| 1.3.13 | Create sample test file to verify Jest runs | milestones M1.3 | ✅ |
+| 1.3.14 | Run `npm test` and verify it passes | milestones M1.3 | ✅ |
 
 ### M1.4 — Configuration Module
 
