@@ -132,28 +132,28 @@
 | 1.4.18 | **Test:** Returns default for optional vars | milestones M1.4 | ✅ |
 | 1.4.19 | **Test:** Parses integer values correctly | milestones M1.4 | ✅ |
 
-### M1.5 — Error Handling Infrastructure
+### M1.5 — Error Handling Infrastructure ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 1.5.1 | Create `lib/errors.ts` | production-checklist §3 |
-| 1.5.2 | Implement `AppError` base class with `code`, `statusCode`, `isOperational` | production-checklist §3 |
-| 1.5.3 | Implement `ApiAdapterError` extending AppError (status 502) | production-checklist §3 |
-| 1.5.4 | Implement `NotFoundError` extending AppError (status 404) | production-checklist §3 |
-| 1.5.5 | Implement `TimeoutError` extending AppError (status 504) | production-checklist §3 |
-| 1.5.6 | Ensure all errors capture stack trace | production-checklist §3 |
-| 1.5.7 | Create `app/error.tsx` error boundary component | production-checklist §3 |
-| 1.5.8 | Implement user-friendly error message in error boundary | production-checklist §3 |
-| 1.5.9 | Add "Try Again" button with `reset()` function | production-checklist §3 |
-| 1.5.10 | Add "Go Home" link to error boundary | production-checklist §3 |
-| 1.5.11 | Create `app/global-error.tsx` for layout errors | production-checklist §3 |
-| 1.5.12 | Style error boundaries with Tailwind | milestones M1.5 |
-| 1.5.13 | Create `tests/lib/errors.test.ts` | milestones M1.5 |
-| 1.5.14 | **Test:** AppError has correct properties | milestones M1.5 |
-| 1.5.15 | **Test:** Each error type has correct status code | milestones M1.5 |
-| 1.5.16 | Create `tests/app/error.test.tsx` | milestones M1.5 |
-| 1.5.17 | **Test:** Error boundary renders error message | milestones M1.5 |
-| 1.5.18 | **Test:** Try Again button calls reset | milestones M1.5 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 1.5.1 | Create `lib/errors.ts` | production-checklist §3 | ✅ |
+| 1.5.2 | Implement `AppError` base class with `code`, `statusCode`, `isOperational` | production-checklist §3 | ✅ |
+| 1.5.3 | Implement `ApiAdapterError` extending AppError (status 502) | production-checklist §3 | ✅ |
+| 1.5.4 | Implement `NotFoundError` extending AppError (status 404) | production-checklist §3 | ✅ |
+| 1.5.5 | Implement `TimeoutError` extending AppError (status 504) | production-checklist §3 | ✅ |
+| 1.5.6 | Ensure all errors capture stack trace | production-checklist §3 | ✅ |
+| 1.5.7 | Create `app/error.tsx` error boundary component | production-checklist §3 | ✅ |
+| 1.5.8 | Implement user-friendly error message in error boundary | production-checklist §3 | ✅ |
+| 1.5.9 | Add "Try Again" button with `reset()` function | production-checklist §3 | ✅ |
+| 1.5.10 | Add "Go Home" link to error boundary | production-checklist §3 | ✅ |
+| 1.5.11 | Create `app/global-error.tsx` for layout errors | production-checklist §3 | ✅ |
+| 1.5.12 | Style error boundaries with Tailwind | milestones M1.5 | ✅ |
+| 1.5.13 | Create `tests/lib/errors.test.ts` | milestones M1.5 | ✅ |
+| 1.5.14 | **Test:** AppError has correct properties | milestones M1.5 | ✅ |
+| 1.5.15 | **Test:** Each error type has correct status code | milestones M1.5 | ✅ |
+| 1.5.16 | Create `tests/app/error.test.tsx` | milestones M1.5 | ✅ |
+| 1.5.17 | **Test:** Error boundary renders error message | milestones M1.5 | ✅ |
+| 1.5.18 | **Test:** Try Again button calls reset | milestones M1.5 | ✅ |
 
 ### M1.6 — Logging Module
 
