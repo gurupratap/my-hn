@@ -16,7 +16,7 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
   ]),
   {
-    // Code quality rules from production-checklist
+    // Code quality rules
     rules: {
       // Complexity rules
       complexity: ["error", { max: 10 }],
@@ -37,6 +37,24 @@ const eslintConfig = defineConfig([
           allowConciseArrowFunctionExpressionsStartingWithVoid: true,
         },
       ],
+    },
+  },
+  {
+    // Override rules for test files
+    files: ["tests/**/*.ts", "tests/**/*.tsx", "**/*.test.ts", "**/*.test.tsx"],
+    rules: {
+      // Allow require() for dynamic module loading in tests (needed for jest.resetModules)
+      "@typescript-eslint/no-require-imports": "off",
+      // Tests can be longer
+      "max-lines-per-function": "off",
+    },
+  },
+  {
+    // Override rules for config files
+    files: ["*.config.js", "*.config.mjs", "*.config.ts"],
+    rules: {
+      // Allow require() in config files
+      "@typescript-eslint/no-require-imports": "off",
     },
   },
 ]);

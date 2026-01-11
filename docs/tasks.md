@@ -108,29 +108,29 @@
 | 1.3.13 | Create sample test file to verify Jest runs | milestones M1.3 | ✅ |
 | 1.3.14 | Run `npm test` and verify it passes | milestones M1.3 | ✅ |
 
-### M1.4 — Configuration Module
+### M1.4 — Configuration Module ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 1.4.1 | Create `lib/config.ts` | production-checklist §2 |
-| 1.4.2 | Implement `getEnvVar(name, required)` helper function | production-checklist §2 |
-| 1.4.3 | Implement `parseIntEnv(name, defaultValue)` helper function | production-checklist §2 |
-| 1.4.4 | Define `NODE_ENV` config (required) | production-checklist §2 |
-| 1.4.5 | Define `NEXT_PUBLIC_API_BASE_URL` config (required) | production-checklist §2 |
-| 1.4.6 | Define `DATA_SOURCE` config (optional, default: 'hackernews') | production-checklist §2 |
-| 1.4.7 | Define `LOG_LEVEL` config (optional, default: 'info') | production-checklist §2 |
-| 1.4.8 | Define `CACHE_TTL_SECONDS` config (optional, default: 60) | production-checklist §2 |
-| 1.4.9 | Define `API_TIMEOUT_MS` config (optional, default: 10000) | production-checklist §2 |
-| 1.4.10 | Define `API_RETRY_COUNT` config (optional, default: 3) | production-checklist §2 |
-| 1.4.11 | Export typed `config` object with `as const` | production-checklist §2 |
-| 1.4.12 | Implement fail-fast validation for missing required vars | production-checklist §2 |
-| 1.4.13 | Create `.env.example` with all variables documented | production-checklist §2 |
-| 1.4.14 | Create `.env.development` with development defaults | production-checklist §2 |
-| 1.4.15 | Create `.env.local.example` (copy template for local) | production-checklist §2 |
-| 1.4.16 | Create `tests/lib/config.test.ts` | milestones M1.4 |
-| 1.4.17 | **Test:** Throws error when required var is missing | milestones M1.4 |
-| 1.4.18 | **Test:** Returns default for optional vars | milestones M1.4 |
-| 1.4.19 | **Test:** Parses integer values correctly | milestones M1.4 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 1.4.1 | Create `lib/config.ts` | production-checklist §2 | ✅ |
+| 1.4.2 | Implement `getEnvVar(name, required)` helper function | production-checklist §2 | ✅ |
+| 1.4.3 | Implement `parseIntEnv(name, defaultValue)` helper function | production-checklist §2 | ✅ |
+| 1.4.4 | Define `NODE_ENV` config (required) | production-checklist §2 | ✅ |
+| 1.4.5 | Define `NEXT_PUBLIC_API_BASE_URL` config (required) | production-checklist §2 | ✅ |
+| 1.4.6 | Define `DATA_SOURCE` config (optional, default: 'hackernews') | production-checklist §2 | ✅ |
+| 1.4.7 | Define `LOG_LEVEL` config (optional, default: 'info') | production-checklist §2 | ✅ |
+| 1.4.8 | Define `CACHE_TTL_SECONDS` config (optional, default: 60) | production-checklist §2 | ✅ |
+| 1.4.9 | Define `API_TIMEOUT_MS` config (optional, default: 10000) | production-checklist §2 | ✅ |
+| 1.4.10 | Define `API_RETRY_COUNT` config (optional, default: 3) | production-checklist §2 | ✅ |
+| 1.4.11 | Export typed `config` object with `as const` | production-checklist §2 | ✅ |
+| 1.4.12 | Implement fail-fast validation for missing required vars | production-checklist §2 | ✅ |
+| 1.4.13 | Create `.env.example` with all variables documented | production-checklist §2 | ✅ |
+| 1.4.14 | Create `.env.development` with development defaults | production-checklist §2 | ✅ |
+| 1.4.15 | Create `.env.local.example` (copy template for local) | production-checklist §2 | ✅ |
+| 1.4.16 | Create `tests/lib/config.test.ts` | milestones M1.4 | ✅ |
+| 1.4.17 | **Test:** Throws error when required var is missing | milestones M1.4 | ✅ |
+| 1.4.18 | **Test:** Returns default for optional vars | milestones M1.4 | ✅ |
+| 1.4.19 | **Test:** Parses integer values correctly | milestones M1.4 | ✅ |
 
 ### M1.5 — Error Handling Infrastructure
 
