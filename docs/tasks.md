@@ -47,33 +47,33 @@
 
 ## M1: Project Foundation
 
-### M1.1 — Scaffold Next.js Application
+### M1.1 — Scaffold Next.js Application ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 1.1.1 | Run `npx create-next-app@latest` with TypeScript, App Router, Turbopack enabled, and **no import alias** (answer "No" to alias prompt or use `--no-import-alias` flag) | milestones M1.1 |
-| 1.1.2 | Verify `package.json` has `"dev": "next dev --turbopack"` script for Turbopack dev server | milestones M1.1 |
-| 1.1.3 | Verify TypeScript is configured in `tsconfig.json` (no `paths` alias configured) | milestones M1.1 |
-| 1.1.4 | Install Tailwind CSS: `npm install -D tailwindcss postcss autoprefixer` | milestones M1.1 |
-| 1.1.5 | Run `npx tailwindcss init -p` to generate config files | milestones M1.1 |
-| 1.1.6 | Configure `tailwind.config.ts` with content paths | milestones M1.1 |
-| 1.1.7 | Add Tailwind directives to `app/globals.css` | milestones M1.1 |
-| 1.1.8 | Install ESLint plugins: `npm install -D eslint-config-prettier` | milestones M1.1 |
-| 1.1.9 | Install Prettier: `npm install -D prettier` | milestones M1.1 |
-| 1.1.10 | Create `.prettierrc` configuration file | milestones M1.1 |
-| 1.1.11 | Update `.eslintrc.json` to extend prettier | milestones M1.1 |
-| 1.1.12 | Add ESLint rule: `complexity` with max 10 | production-checklist §1 |
-| 1.1.13 | Add ESLint rule: `max-lines-per-function` with max 50 (warn) | production-checklist §1 |
-| 1.1.14 | Add ESLint rule: `max-depth` with max 3 | production-checklist §1 |
-| 1.1.15 | Add ESLint rule: `max-params` with max 4 | production-checklist §1 |
-| 1.1.16 | Add ESLint rule: `no-nested-ternary` as error | production-checklist §1 |
-| 1.1.17 | Add TypeScript rule: `@typescript-eslint/no-explicit-any` as error | production-checklist §1 |
-| 1.1.18 | Add TypeScript rule: `@typescript-eslint/explicit-function-return-type` (warn, with exceptions) | production-checklist §1 |
-| 1.1.19 | Initialize Git repository: `git init` | milestones M1.1 |
-| 1.1.20 | Create `.gitignore` with Node.js and Next.js patterns | milestones M1.1 |
-| 1.1.21 | Verify `npm run dev --turbopack` starts successfully with Turbopack | milestones M1.1 |
-| 1.1.22 | Verify `npm run build` completes successfully | milestones M1.1 |
-| 1.1.23 | Verify `npm run lint` passes with no errors | milestones M1.1 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 1.1.1 | Run `npx create-next-app@latest` with TypeScript, App Router, Turbopack enabled, and **no import alias** (answer "No" to alias prompt or use `--no-import-alias` flag) | milestones M1.1 | ✅ |
+| 1.1.2 | Verify `package.json` has `"dev": "next dev --turbopack"` script for Turbopack dev server | milestones M1.1 | ✅ |
+| 1.1.3 | Verify TypeScript is configured in `tsconfig.json` (no `paths` alias configured) | milestones M1.1 | ✅ |
+| 1.1.4 | Install Tailwind CSS: `npm install -D tailwindcss postcss autoprefixer` | milestones M1.1 | ✅ |
+| 1.1.5 | Run `npx tailwindcss init -p` to generate config files | milestones M1.1 | ✅ |
+| 1.1.6 | Configure `tailwind.config.ts` with content paths | milestones M1.1 | ✅ |
+| 1.1.7 | Add Tailwind directives to `app/globals.css` | milestones M1.1 | ✅ |
+| 1.1.8 | Install ESLint plugins: `npm install -D eslint-config-prettier` | milestones M1.1 | ✅ |
+| 1.1.9 | Install Prettier: `npm install -D prettier` | milestones M1.1 | ✅ |
+| 1.1.10 | Create `.prettierrc` configuration file | milestones M1.1 | ✅ |
+| 1.1.11 | Update `.eslintrc.json` to extend prettier | milestones M1.1 | ✅ |
+| 1.1.12 | Add ESLint rule: `complexity` with max 10 | production-checklist §1 | ✅ |
+| 1.1.13 | Add ESLint rule: `max-lines-per-function` with max 50 (warn) | production-checklist §1 | ✅ |
+| 1.1.14 | Add ESLint rule: `max-depth` with max 3 | production-checklist §1 | ✅ |
+| 1.1.15 | Add ESLint rule: `max-params` with max 4 | production-checklist §1 | ✅ |
+| 1.1.16 | Add ESLint rule: `no-nested-ternary` as error | production-checklist §1 | ✅ |
+| 1.1.17 | Add TypeScript rule: `@typescript-eslint/no-explicit-any` as error | production-checklist §1 | ✅ |
+| 1.1.18 | Add TypeScript rule: `@typescript-eslint/explicit-function-return-type` (warn, with exceptions) | production-checklist §1 | ✅ |
+| 1.1.19 | Initialize Git repository: `git init` | milestones M1.1 | ✅ |
+| 1.1.20 | Create `.gitignore` with Node.js and Next.js patterns | milestones M1.1 | ✅ |
+| 1.1.21 | Verify `npm run dev --turbopack` starts successfully with Turbopack | milestones M1.1 | ✅ |
+| 1.1.22 | Verify `npm run build` completes successfully | milestones M1.1 | ✅ |
+| 1.1.23 | Verify `npm run lint` passes with no errors | milestones M1.1 | ✅ |
 
 ### M1.2 — Create Folder Structure
 
