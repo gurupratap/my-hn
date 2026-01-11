@@ -75,19 +75,19 @@
 | 1.1.22 | Verify `npm run build` completes successfully | milestones M1.1 | ✅ |
 | 1.1.23 | Verify `npm run lint` passes with no errors | milestones M1.1 | ✅ |
 
-### M1.2 — Create Folder Structure
+### M1.2 — Create Folder Structure ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 1.2.1 | Create `components/` directory | prd naming conventions |
-| 1.2.2 | Create `domain/` directory | prd naming conventions |
-| 1.2.3 | Create `services/` directory | prd naming conventions |
-| 1.2.4 | Create `adapters/` directory | prd naming conventions |
-| 1.2.5 | Create `hooks/` directory | prd naming conventions |
-| 1.2.6 | Create `lib/` directory | prd naming conventions |
-| 1.2.7 | Create `mocks/` directory | milestones M1.2 |
-| 1.2.8 | Create `tests/` directory | milestones M1.2 |
-| 1.2.9 | Add `.gitkeep` to empty directories | milestones M1.2 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 1.2.1 | Create `components/` directory | prd naming conventions | ✅ |
+| 1.2.2 | Create `domain/` directory | prd naming conventions | ✅ |
+| 1.2.3 | Create `services/` directory | prd naming conventions | ✅ |
+| 1.2.4 | Create `adapters/` directory | prd naming conventions | ✅ |
+| 1.2.5 | Create `hooks/` directory | prd naming conventions | ✅ |
+| 1.2.6 | Create `lib/` directory | prd naming conventions | ✅ |
+| 1.2.7 | Create `mocks/` directory | milestones M1.2 | ✅ |
+| 1.2.8 | Create `tests/` directory | milestones M1.2 | ✅ |
+| 1.2.9 | Add `.gitkeep` to empty directories | milestones M1.2 | ✅ |
 
 ### M1.3 — Testing Infrastructure Setup
 
