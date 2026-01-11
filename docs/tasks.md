@@ -155,18 +155,18 @@
 | 1.5.17 | **Test:** Error boundary renders error message | milestones M1.5 | ✅ |
 | 1.5.18 | **Test:** Try Again button calls reset | milestones M1.5 | ✅ |
 
-### M1.6 — Logging Module
+### M1.6 — Logging Module ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 1.6.1 | Install pino: `npm install pino` | production-checklist §4 |
-| 1.6.2 | Install pino-pretty for dev: `npm install -D pino-pretty` | production-checklist §4 |
-| 1.6.3 | Create `lib/logger.ts` | production-checklist §4 |
-| 1.6.4 | Configure pino with JSON output | production-checklist §4 |
-| 1.6.5 | Implement log level from `LOG_LEVEL` config | production-checklist §4 |
-| 1.6.6 | Add `timestamp` field (ISO 8601) | production-checklist §4 |
-| 1.6.7 | Export typed logger with `error`, `warn`, `info`, `debug` methods | production-checklist §4 |
-| 1.6.8 | Configure pino-pretty for development only | production-checklist §4 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 1.6.1 | Install pino: `npm install pino` | production-checklist §4 | ✅ |
+| 1.6.2 | Install pino-pretty for dev: `npm install -D pino-pretty` | production-checklist §4 | ✅ |
+| 1.6.3 | Create `lib/logger.ts` | production-checklist §4 | ✅ |
+| 1.6.4 | Configure pino with JSON output | production-checklist §4 | ✅ |
+| 1.6.5 | Implement log level from `LOG_LEVEL` config | production-checklist §4 | ✅ |
+| 1.6.6 | Add `timestamp` field (ISO 8601) | production-checklist §4 | ✅ |
+| 1.6.7 | Export typed logger with `error`, `warn`, `info`, `debug` methods | production-checklist §4 | ✅ |
+| 1.6.8 | Configure pino-pretty for development only | production-checklist §4 | ✅ |
 
 ### M1.7 — Retry Utility
 
