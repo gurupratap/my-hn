@@ -364,13 +364,13 @@
 
 | # | Task | Spec Reference |
 |---|------|----------------|
-| 3.3.1 | Create `hooks/usePosts.ts` | prd hooks |
-| 3.3.2 | Implement loading, error, data state management | prd hooks |
-| 3.3.3 | Implement refetch function | prd hooks |
-| 3.3.4 | Create `hooks/useComments.ts` | prd hooks |
-| 3.3.5 | Implement loading, error, data state management | prd hooks |
-| 3.3.6 | Create `hooks/useAuth.ts` (stub) | prd hooks |
-| 3.3.7 | Return `{ user: null, isAuthenticated: false }` | prd hooks |
+| 3.3.1 | Create `hooks/usePosts.ts` | prd hooks | ✅ |
+| 3.3.2 | Implement loading, error, data state management | prd hooks | ✅ |
+| 3.3.3 | Implement refetch function | prd hooks | ✅ |
+| 3.3.4 | Create `hooks/useComments.ts` | prd hooks | ✅ |
+| 3.3.5 | Implement loading, error, data state management | prd hooks | ✅ |
+| 3.3.6 | Create `hooks/useAuth.ts` (stub) | prd hooks | ✅ |
+| 3.3.7 | Return `{ user: null, isAuthenticated: false }` | prd hooks | ✅ |
 
 ### M3 Acceptance Checklist
 
