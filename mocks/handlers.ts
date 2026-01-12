@@ -14,9 +14,9 @@ import {
 } from './data/posts';
 import { getMockComment } from './data/comments';
 import { HttpStatus } from '../lib/http-status';
+import { config as config } from '../lib/config';
 
-export const HN_API_BASE_URL = 'https://hacker-news.firebaseio.com';
-export const HN_API_BASE = `${HN_API_BASE_URL}/v0`;
+const HN_API_BASE = `${config.HN_API_BASE_URL}/v0`;
 
 export const handlers = [
   // GET /v0/topstories.json - Returns top story IDs

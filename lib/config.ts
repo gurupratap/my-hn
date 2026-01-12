@@ -68,7 +68,7 @@ export const config = {
    * Base URL for the Hacker News API (required)
    * Default HN API: https://hacker-news.firebaseio.com
    */
-  NEXT_PUBLIC_API_BASE_URL: getEnvVar('NEXT_PUBLIC_API_BASE_URL', true) as string,
+  HN_API_BASE_URL: getEnvVar('HN_API_BASE_URL', true) as string,
 
   /**
    * Data source adapter to use (optional)
@@ -109,7 +109,7 @@ export type Config = typeof config;
 // Export individual values for convenience
 export const {
   NODE_ENV,
-  NEXT_PUBLIC_API_BASE_URL,
+  HN_API_BASE_URL,
   DATA_SOURCE,
   LOG_LEVEL,
   CACHE_TTL_SECONDS,

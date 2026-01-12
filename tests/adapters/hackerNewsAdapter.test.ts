@@ -3,11 +3,12 @@
  */
 
 import { server } from '../../mocks/server';
-import { errorHandlers, HN_API_BASE, HN_API_BASE_URL } from '../../mocks/handlers';
+import { errorHandlers } from '../../mocks/handlers';
 import { hackerNewsAdapter, mapHNCommentToComment, mapHNPostToPost } from '../../adapters/hackerNewsAdapter';
-import { GatewayError, NotFoundError, TimeoutError } from '../../lib/errors';
+import { GatewayError, NotFoundError } from '../../lib/errors';
+import { HN_API_BASE } from '../constants';
 
-// Mock logger to keep test output clean and allow assertions if needed
+// Mock logger to keep test output clean
 jest.mock('../../lib/logger', () => ({
   logger: {
     info: jest.fn(),
@@ -17,28 +18,17 @@ jest.mock('../../lib/logger', () => ({
   },
 }));
 
+const { TimeoutError } = require('../../lib/errors');
+
 describe('hackerNewsAdapter', () => {
-  const originalEnv = process.env;
-
   beforeAll(() => server.listen());
-
-  beforeEach(() => {
-    jest.resetModules();
-    process.env = { ...originalEnv };
-    process.env.NODE_ENV = 'test';
-    process.env.NEXT_PUBLIC_API_BASE_URL = HN_API_BASE_URL;
-    process.env.API_TIMEOUT_MS = '10000';
-    process.env.API_RETRY_COUNT = '2';
-  });
 
   afterEach(() => {
     server.resetHandlers();
-    jest.restoreAllMocks();
   });
 
   afterAll(() => {
     server.close();
-    process.env = originalEnv;
   });
 
   it('mapHNPostToPost maps all fields correctly', () => {
@@ -128,24 +118,33 @@ describe('hackerNewsAdapter', () => {
 
   it('Timeout triggers TimeoutError', async () => {
     // Force a very small timeout and delay the response beyond it.
-    process.env.API_TIMEOUT_MS = '5';
+    // We need to mock the config before importing the adapter
+    jest.resetModules();
+    
+    jest.doMock('../../lib/config', () => ({
+      config: {
+        HN_API_BASE_URL: 'https://hacker-news.firebaseio.com',
+        API_TIMEOUT_MS: 5, // Very short timeout
+        API_RETRY_COUNT: 0, // No retries for faster test
+      },
+    }));
 
+    const { http, HttpResponse } = require('msw');
+    
     server.use(
       // Delay for 50ms so AbortController should fire first
-      require('msw').http.get(
+      http.get(
         `${HN_API_BASE}/topstories.json`,
         async () => {
           await new Promise((r) => setTimeout(r, 50));
-          return require('msw').HttpResponse.json([1, 2, 3]);
+          return HttpResponse.json([1, 2, 3]);
         }
       )
     );
 
-    // Import fresh to pick up modified env timeout
-    jest.resetModules();
     const { hackerNewsAdapter: freshAdapter } = require('../../adapters/hackerNewsAdapter');
-
-    await expect(freshAdapter.getTopPostIds()).rejects.toBeInstanceOf(TimeoutError);
+    const { TimeoutError: FreshTimeoutError } = require('../../lib/errors');
+    await expect(freshAdapter.getTopPostIds()).rejects.toBeInstanceOf(FreshTimeoutError);
   });
 
   it('getNewPostIds returns array of numbers', async () => {

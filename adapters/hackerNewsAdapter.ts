@@ -33,7 +33,7 @@ function toV0BaseUrl(apiBaseUrl: string): string {
   return apiBaseUrl.endsWith('/') ? `${apiBaseUrl}v0` : `${apiBaseUrl}/v0`;
 }
 
-const HN_API_BASE = toV0BaseUrl(config.NEXT_PUBLIC_API_BASE_URL);
+const HN_API_BASE = toV0BaseUrl(config.HN_API_BASE_URL);
 
 function mapPostType(type: string | undefined): PostType {
   if (type === 'story' || type === 'job' || type === 'poll') return type;
@@ -71,6 +71,13 @@ export function mapHNCommentToComment(hnItem: HNItem): Comment {
   };
 }
 
+function isAbortError(error: unknown): boolean {
+  return (
+    (error instanceof Error || error instanceof DOMException) &&
+    error.name === 'AbortError'
+  );
+}
+
 export async function fetchWithTimeout(
   url: string,
   timeoutMs: number,
@@ -85,7 +92,7 @@ export async function fetchWithTimeout(
       signal: controller.signal,
     });
   } catch (error) {
-    if (error instanceof Error && error.name === 'AbortError') {
+    if (isAbortError(error)) {
       throw new TimeoutError(`Request timed out after ${timeoutMs}ms`);
     }
     throw error;

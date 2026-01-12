@@ -13,7 +13,7 @@ describe('lib/config', () => {
     process.env = { ...originalEnv };
     // Set required env vars for most tests (tests for missing required vars will override)
     process.env.NODE_ENV = 'test';
-    process.env.NEXT_PUBLIC_API_BASE_URL = 'https://test-api.example.com';
+    process.env.HN_API_BASE_URL = 'https://test-api.example.com';
   });
 
   afterAll(() => {
@@ -122,7 +122,7 @@ describe('lib/config', () => {
     it('should have correct default values for optional variables', () => {
       // Set required variables
       process.env.NODE_ENV = 'development';
-      process.env.NEXT_PUBLIC_API_BASE_URL = 'https://example.com';
+      process.env.HN_API_BASE_URL = 'https://example.com';
 
       // Clear optional variables to test defaults
       delete process.env.DATA_SOURCE;
@@ -142,7 +142,7 @@ describe('lib/config', () => {
 
     it('should use provided values for optional variables', () => {
       process.env.NODE_ENV = 'production';
-      process.env.NEXT_PUBLIC_API_BASE_URL = 'https://api.example.com';
+      process.env.HN_API_BASE_URL = 'https://api.example.com';
       process.env.DATA_SOURCE = 'custom';
       process.env.LOG_LEVEL = 'debug';
       process.env.CACHE_TTL_SECONDS = '120';
@@ -152,7 +152,7 @@ describe('lib/config', () => {
       const { config } = require('../../lib/config');
 
       expect(config.NODE_ENV).toBe('production');
-      expect(config.NEXT_PUBLIC_API_BASE_URL).toBe('https://api.example.com');
+      expect(config.HN_API_BASE_URL).toBe('https://api.example.com');
       expect(config.DATA_SOURCE).toBe('custom');
       expect(config.LOG_LEVEL).toBe('debug');
       expect(config.CACHE_TTL_SECONDS).toBe(120);
@@ -162,19 +162,19 @@ describe('lib/config', () => {
 
     it('should throw error when NODE_ENV is missing', () => {
       delete process.env.NODE_ENV;
-      process.env.NEXT_PUBLIC_API_BASE_URL = 'https://example.com';
+      process.env.HN_API_BASE_URL = 'https://example.com';
 
       expect(() => require('../../lib/config')).toThrow(
         'Missing required environment variable: NODE_ENV'
       );
     });
 
-    it('should throw error when NEXT_PUBLIC_API_BASE_URL is missing', () => {
+    it('should throw error when HN_API_BASE_URL is missing', () => {
       process.env.NODE_ENV = 'development';
-      delete process.env.NEXT_PUBLIC_API_BASE_URL;
+      delete process.env.HN_API_BASE_URL;
 
       expect(() => require('../../lib/config')).toThrow(
-        'Missing required environment variable: NEXT_PUBLIC_API_BASE_URL'
+        'Missing required environment variable: HN_API_BASE_URL'
       );
     });
   });

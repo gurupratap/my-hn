@@ -34,4 +34,14 @@ const customJestConfig = {
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-module.exports = createJestConfig(customJestConfig);
+// We wrap it to add transformIgnorePatterns for MSW ESM dependencies
+module.exports = async () => {
+  const jestConfig = await createJestConfig(customJestConfig)();
+  return {
+    ...jestConfig,
+    // Transform ESM modules used by MSW
+    transformIgnorePatterns: [
+      '/node_modules/(?!(msw|@mswjs|until-async|@bundled-es-modules)/)',
+    ],
+  };
+};
