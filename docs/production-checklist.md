@@ -252,7 +252,7 @@ module.exports = {
  * 
  * @param options - Fetch configuration
  * @returns Array of posts for the requested page
- * @throws {ApiAdapterError} When HN API is unreachable
+ * @throws {GatewayError} When HN API is unreachable
  */
 export async function fetchPosts(options: FetchOptions): Promise<Post[]> {
   ...
@@ -374,7 +374,7 @@ Robust error handling must be built into the codebase from day one.
 | Error Class | Use Case | HTTP Status |
 |-------------|----------|-------------|
 | `AppError` | Base class for all app errors | — |
-| `ApiAdapterError` | External API failures | 502 |
+| `GatewayError` | External API failures | 502 |
 | `NotFoundError` | Resource not found | 404 |
 | `TimeoutError` | Request timeout | 504 |
 

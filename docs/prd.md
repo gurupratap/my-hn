@@ -112,7 +112,7 @@ Adopt these conventions from day 0 so reviewers and teammates immediately unders
 
 * `lib/`
   * `lib/config.ts` — central config (e.g., `NEXT_PUBLIC_API_BASE_URL`, data source flag)
-  * `lib/errors.ts` — custom error classes (`AppError`, `ApiAdapterError`, `NotFoundError`, `TimeoutError`)
+  * `lib/errors.ts` — custom error classes (`AppError`, `GatewayError`, `NotFoundError`, `TimeoutError`)
   * `lib/logger.ts` — structured logging with pino
   * `lib/retry.ts` — retry utility with exponential backoff
   * `lib/sanitize.ts` — HTML sanitization for comment content

@@ -7,7 +7,7 @@
 
 import {
   AppError,
-  ApiAdapterError,
+  GatewayError,
   NotFoundError,
   TimeoutError,
   isAppError,
@@ -61,43 +61,43 @@ describe('AppError', () => {
   });
 });
 
-describe('ApiAdapterError', () => {
+describe('GatewayError', () => {
   it('has correct status code (502)', () => {
-    const error = new ApiAdapterError();
+    const error = new GatewayError();
 
     expect(error.statusCode).toBe(502);
   });
 
   it('has correct error code', () => {
-    const error = new ApiAdapterError();
+    const error = new GatewayError();
 
-    expect(error.code).toBe('API_ADAPTER_ERROR');
+    expect(error.code).toBe('GATEWAY_ERROR');
   });
 
   it('has default message', () => {
-    const error = new ApiAdapterError();
+    const error = new GatewayError();
 
-    expect(error.message).toBe('External API error');
+    expect(error.message).toBe('Upstream service error');
   });
 
   it('accepts custom message', () => {
-    const error = new ApiAdapterError('HN API failed');
+    const error = new GatewayError('HN API failed');
 
     expect(error.message).toBe('HN API failed');
   });
 
   it('is instanceof AppError', () => {
-    const error = new ApiAdapterError();
+    const error = new GatewayError();
 
     expect(error).toBeInstanceOf(AppError);
-    expect(error).toBeInstanceOf(ApiAdapterError);
+    expect(error).toBeInstanceOf(GatewayError);
   });
 
   it('captures stack trace', () => {
-    const error = new ApiAdapterError();
+    const error = new GatewayError();
 
     expect(error.stack).toBeDefined();
-    expect(error.stack).toContain('ApiAdapterError');
+    expect(error.stack).toContain('GatewayError');
   });
 });
 
@@ -188,8 +188,8 @@ describe('isAppError', () => {
     expect(isAppError(error)).toBe(true);
   });
 
-  it('returns true for ApiAdapterError', () => {
-    const error = new ApiAdapterError();
+  it('returns true for GatewayError', () => {
+    const error = new GatewayError();
 
     expect(isAppError(error)).toBe(true);
   });

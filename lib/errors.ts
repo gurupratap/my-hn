@@ -68,13 +68,13 @@ export class AppError extends Error {
 }
 
 /**
- * Error thrown when an API adapter encounters an error.
- * Used for upstream API failures (e.g., Hacker News API errors).
+ * Error thrown when an upstream API fails.
+ * Used for external service failures (e.g., Hacker News API errors).
  * Status: 502 Bad Gateway
  */
-export class ApiAdapterError extends AppError {
-  constructor(message: string = 'External API error') {
-    super(message, 'API_ADAPTER_ERROR', 502, true);
+export class GatewayError extends AppError {
+  constructor(message: string = 'Upstream service error') {
+    super(message, 'GATEWAY_ERROR', 502, true);
   }
 }
 

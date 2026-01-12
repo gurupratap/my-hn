@@ -138,7 +138,7 @@
 |---|------|----------------|--------|
 | 1.5.1 | Create `lib/errors.ts` | production-checklist §3 | ✅ |
 | 1.5.2 | Implement `AppError` base class with `code`, `statusCode`, `isOperational` | production-checklist §3 | ✅ |
-| 1.5.3 | Implement `ApiAdapterError` extending AppError (status 502) | production-checklist §3 | ✅ |
+| 1.5.3 | Implement `GatewayError` extending AppError (status 502) | production-checklist §3 | ✅ |
 | 1.5.4 | Implement `NotFoundError` extending AppError (status 404) | production-checklist §3 | ✅ |
 | 1.5.5 | Implement `TimeoutError` extending AppError (status 504) | production-checklist §3 | ✅ |
 | 1.5.6 | Ensure all errors capture stack trace | production-checklist §3 | ✅ |
@@ -168,27 +168,27 @@
 | 1.6.7 | Export typed logger with `error`, `warn`, `info`, `debug` methods | production-checklist §4 | ✅ |
 | 1.6.8 | Configure pino-pretty for development only | production-checklist §4 | ✅ |
 
-### M1.7 — Retry Utility
+### M1.7 — Retry Utility ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 1.7.1 | Create `lib/retry.ts` | production-checklist §5 |
-| 1.7.2 | Define `RetryOptions` interface (maxRetries, initialDelay, maxDelay, backoffMultiplier) | production-checklist §5 |
-| 1.7.3 | Implement `withRetry<T>(fn, options)` generic function | production-checklist §5 |
-| 1.7.4 | Implement exponential backoff calculation | production-checklist §5 |
-| 1.7.5 | Implement delay with `setTimeout` + Promise | production-checklist §5 |
-| 1.7.6 | Use `API_RETRY_COUNT` config for default max retries | production-checklist §5 |
-| 1.7.7 | Implement `isRetryableError(error)` helper | production-checklist §5 |
-| 1.7.8 | Return true for 5xx status codes | production-checklist §5 |
-| 1.7.9 | Return true for network errors | production-checklist §5 |
-| 1.7.10 | Return true for 429 (rate limited) | production-checklist §5 |
-| 1.7.11 | Return false for other 4xx status codes | production-checklist §5 |
-| 1.7.12 | Log retry attempts with logger | production-checklist §4 |
-| 1.7.13 | Create `tests/lib/retry.test.ts` | milestones M1.7 |
-| 1.7.14 | **Test:** Retries on 500 error | milestones M1.7 |
-| 1.7.15 | **Test:** Does not retry on 404 error | milestones M1.7 |
-| 1.7.16 | **Test:** Stops after max retries | milestones M1.7 |
-| 1.7.17 | **Test:** Backoff delay increases exponentially | milestones M1.7 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 1.7.1 | Create `lib/retry.ts` | production-checklist §5 | ✅ |
+| 1.7.2 | Define `RetryOptions` interface (maxRetries, initialDelay, maxDelay, backoffMultiplier) | production-checklist §5 | ✅ |
+| 1.7.3 | Implement `withRetry<T>(fn, options)` generic function | production-checklist §5 | ✅ |
+| 1.7.4 | Implement exponential backoff calculation | production-checklist §5 | ✅ |
+| 1.7.5 | Implement delay with `setTimeout` + Promise | production-checklist §5 | ✅ |
+| 1.7.6 | Use `API_RETRY_COUNT` config for default max retries | production-checklist §5 | ✅ |
+| 1.7.7 | Implement `isRetryableError(error)` helper | production-checklist §5 | ✅ |
+| 1.7.8 | Return true for 5xx status codes | production-checklist §5 | ✅ |
+| 1.7.9 | Return true for network errors | production-checklist §5 | ✅ |
+| 1.7.10 | Return true for 429 (rate limited) | production-checklist §5 | ✅ |
+| 1.7.11 | Return false for other 4xx status codes | production-checklist §5 | ✅ |
+| 1.7.12 | Log retry attempts with logger | production-checklist §4 | ✅ |
+| 1.7.13 | Create `tests/lib/retry.test.ts` | milestones M1.7 | ✅ |
+| 1.7.14 | **Test:** Retries on 500 error | milestones M1.7 | ✅ |
+| 1.7.15 | **Test:** Does not retry on 404 error | milestones M1.7 | ✅ |
+| 1.7.16 | **Test:** Stops after max retries | milestones M1.7 | ✅ |
+| 1.7.17 | **Test:** Backoff delay increases exponentially | milestones M1.7 | ✅ |
 
 ### M1.8 — Caching Strategy (Next.js Built-in)
 
@@ -296,7 +296,7 @@
 | 2.4.4 | **Test:** `getTopPostIds()` returns array of numbers | milestones M2.4 |
 | 2.4.5 | **Test:** `getPostById()` returns valid Post | milestones M2.4 |
 | 2.4.6 | **Test:** `getPostById()` throws NotFoundError for 404 | milestones M2.4 |
-| 2.4.7 | **Test:** Adapter retries on 500 then throws ApiAdapterError | milestones M2.4 |
+| 2.4.7 | **Test:** Adapter retries on 500 then throws GatewayError | milestones M2.4 |
 | 2.4.8 | **Test:** Timeout triggers TimeoutError | milestones M2.4 |
 
 **Note:** Next.js fetch caching is tested at integration level, not unit tests.

@@ -135,7 +135,7 @@ Since this is a **read-only website** with no user authentication, forms, or use
 #### M1.5 — Error Handling Infrastructure
 - [ ] Create `lib/errors.ts` with custom error classes:
   - `AppError` (base class)
-  - `ApiAdapterError`
+  - `GatewayError`
   - `NotFoundError`
   - `TimeoutError`
 - [ ] Create `app/error.tsx` (root error boundary)
@@ -263,7 +263,7 @@ Since this is a **read-only website** with no user authentication, forms, or use
 - [ ] **Test:** `getTopPostIds()` returns array
 - [ ] **Test:** `getPostById()` returns Post
 - [ ] **Test:** 404 response throws NotFoundError
-- [ ] **Test:** 500 response retries then throws ApiAdapterError
+- [ ] **Test:** 500 response retries then throws GatewayError
 - [ ] **Test:** Timeout triggers TimeoutError
 
 **Note:** Next.js fetch caching is tested at integration level, not unit tests.
