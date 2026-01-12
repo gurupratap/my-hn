@@ -13,8 +13,10 @@ import {
   getMockPost,
 } from './data/posts';
 import { getMockComment } from './data/comments';
+import { HttpStatus } from '../lib/http-status';
 
-const HN_API_BASE = 'https://hacker-news.firebaseio.com/v0';
+export const HN_API_BASE_URL = 'https://hacker-news.firebaseio.com';
+export const HN_API_BASE = `${HN_API_BASE_URL}/v0`;
 
 export const handlers = [
   // GET /v0/topstories.json - Returns top story IDs
@@ -37,7 +39,7 @@ export const handlers = [
     const id = Number(params.id);
 
     if (isNaN(id)) {
-      return HttpResponse.json(null, { status: 400 });
+      return HttpResponse.json(null, { status: HttpStatus.BAD_REQUEST });
     }
 
     // Try to find as a post first
@@ -63,14 +65,14 @@ export const handlers = [
 export const errorHandlers = {
   // Handler that returns 404 for any item request
   notFound: http.get(`${HN_API_BASE}/item/:id.json`, () => {
-    return HttpResponse.json(null, { status: 404 });
+    return HttpResponse.json(null, { status: HttpStatus.NOT_FOUND });
   }),
 
   // Handler that returns 500 server error
   serverError: http.get(`${HN_API_BASE}/item/:id.json`, () => {
     return HttpResponse.json(
       { error: 'Internal Server Error' },
-      { status: 500 }
+      { status: HttpStatus.INTERNAL_SERVER_ERROR }
     );
   }),
 
@@ -78,7 +80,7 @@ export const errorHandlers = {
   storiesServerError: http.get(`${HN_API_BASE}/topstories.json`, () => {
     return HttpResponse.json(
       { error: 'Internal Server Error' },
-      { status: 500 }
+      { status: HttpStatus.INTERNAL_SERVER_ERROR }
     );
   }),
 };
