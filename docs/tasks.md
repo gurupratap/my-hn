@@ -190,14 +190,14 @@
 | 1.7.16 | **Test:** Stops after max retries | milestones M1.7 | ✅ |
 | 1.7.17 | **Test:** Backoff delay increases exponentially | milestones M1.7 | ✅ |
 
-### M1.8 — Caching Strategy (Next.js Built-in)
+### M1.8 — Caching Strategy (Next.js Built-in) ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 1.8.1 | Document Next.js fetch caching approach in code comments | production-checklist §6 |
-| 1.8.2 | No custom `lib/cache.ts` needed — using Next.js `fetch()` with `next: { revalidate }` | production-checklist §6 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 1.8.1 | Document Next.js fetch caching approach in code comments | production-checklist §6 | ✅ (in M2.3) |
+| 1.8.2 | No custom `lib/cache.ts` needed — using Next.js `fetch()` with `next: { revalidate }` | production-checklist §6 | ✅ |
 
-**Note:** Custom cache implementation deferred. Next.js handles caching via `fetch()` options.
+**Note:** No custom cache implementation needed. Next.js handles caching via `fetch()` options. Documentation will be added as code comments in M2.3 (Hacker News Adapter).
 
 ### M1 Acceptance Checklist
 
@@ -219,45 +219,45 @@
 
 ## M2: Domain Models & Resilient Adapter
 
-### M2.1 — Domain Models
+### M2.1 — Domain Models ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 2.1.1 | Create `domain/models.ts` | prd domain models |
-| 2.1.2 | Define `Post` interface with all fields | prd glossary |
-| 2.1.3 | Include `id: number` in Post | prd glossary |
-| 2.1.4 | Include `title: string` in Post | prd glossary |
-| 2.1.5 | Include `url?: string` in Post (optional) | prd glossary |
-| 2.1.6 | Include `text?: string` in Post (optional) | prd glossary |
-| 2.1.7 | Include `author: string` in Post | prd glossary |
-| 2.1.8 | Include `points: number` in Post | prd glossary |
-| 2.1.9 | Include `commentCount: number` in Post | prd glossary |
-| 2.1.10 | Include `commentIds: number[]` in Post | prd glossary |
-| 2.1.11 | Include `createdAt: Date` in Post | prd glossary |
-| 2.1.12 | Define `Comment` interface with all fields | prd glossary |
-| 2.1.13 | Include `id: number` in Comment | prd glossary |
-| 2.1.14 | Include `author: string` in Comment | prd glossary |
-| 2.1.15 | Include `text: string` in Comment | prd glossary |
-| 2.1.16 | Include `createdAt: Date` in Comment | prd glossary |
-| 2.1.17 | Include `parentId?: number` in Comment (optional) | prd glossary |
-| 2.1.18 | Include `children: Comment[]` in Comment | prd glossary |
-| 2.1.19 | Define `User` interface (stub for future) | prd glossary |
-| 2.1.20 | Export all interfaces | prd domain models |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 2.1.1 | Create `domain/models.ts` | prd domain models | ✅ |
+| 2.1.2 | Define `Post` interface with all fields | prd glossary | ✅ |
+| 2.1.3 | Include `id: number` in Post | prd glossary | ✅ |
+| 2.1.4 | Include `title: string` in Post | prd glossary | ✅ |
+| 2.1.5 | Include `url?: string` in Post (optional) | prd glossary | ✅ |
+| 2.1.6 | Include `text?: string` in Post (optional) | prd glossary | ✅ |
+| 2.1.7 | Include `author: string` in Post | prd glossary | ✅ |
+| 2.1.8 | Include `points: number` in Post | prd glossary | ✅ |
+| 2.1.9 | Include `commentCount: number` in Post | prd glossary | ✅ |
+| 2.1.10 | Include `commentIds: number[]` in Post | prd glossary | ✅ |
+| 2.1.11 | Include `createdAt: Date` in Post | prd glossary | ✅ |
+| 2.1.12 | Define `Comment` interface with all fields | prd glossary | ✅ |
+| 2.1.13 | Include `id: number` in Comment | prd glossary | ✅ |
+| 2.1.14 | Include `author: string` in Comment | prd glossary | ✅ |
+| 2.1.15 | Include `text: string` in Comment | prd glossary | ✅ |
+| 2.1.16 | Include `createdAt: Date` in Comment | prd glossary | ✅ |
+| 2.1.17 | Include `parentId?: number` in Comment (optional) | prd glossary | ✅ |
+| 2.1.18 | Include `children: Comment[]` in Comment | prd glossary | ✅ |
+| 2.1.19 | Define `User` interface (stub for future) | prd glossary | ✅ |
+| 2.1.20 | Export all interfaces | prd domain models | ✅ |
 
-### M2.2 — MSW Handlers for HN API
+### M2.2 — MSW Handlers for HN API ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 2.2.1 | Create mock post data in `mocks/data/posts.ts` | milestones M2.2 |
-| 2.2.2 | Create mock comment data in `mocks/data/comments.ts` | milestones M2.2 |
-| 2.2.3 | Add handler for `GET /v0/topstories.json` | milestones M2.2 |
-| 2.2.4 | Add handler for `GET /v0/newstories.json` | milestones M2.2 |
-| 2.2.5 | Add handler for `GET /v0/beststories.json` | milestones M2.2 |
-| 2.2.6 | Add handler for `GET /v0/item/:id.json` (post) | milestones M2.2 |
-| 2.2.7 | Add handler for `GET /v0/item/:id.json` (comment) | milestones M2.2 |
-| 2.2.8 | Add error handler for 404 not found | milestones M2.2 |
-| 2.2.9 | Add error handler for 500 server error | milestones M2.2 |
-| 2.2.10 | Export all handlers from `mocks/handlers.ts` | milestones M2.2 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 2.2.1 | Create mock post data in `mocks/data/posts.ts` | milestones M2.2 | ✅ |
+| 2.2.2 | Create mock comment data in `mocks/data/comments.ts` | milestones M2.2 | ✅ |
+| 2.2.3 | Add handler for `GET /v0/topstories.json` | milestones M2.2 | ✅ |
+| 2.2.4 | Add handler for `GET /v0/newstories.json` | milestones M2.2 | ✅ |
+| 2.2.5 | Add handler for `GET /v0/beststories.json` | milestones M2.2 | ✅ |
+| 2.2.6 | Add handler for `GET /v0/item/:id.json` (post) | milestones M2.2 | ✅ |
+| 2.2.7 | Add handler for `GET /v0/item/:id.json` (comment) | milestones M2.2 | ✅ |
+| 2.2.8 | Add error handler for 404 not found | milestones M2.2 | ✅ |
+| 2.2.9 | Add error handler for 500 server error | milestones M2.2 | ✅ |
+| 2.2.10 | Export all handlers from `mocks/handlers.ts` | milestones M2.2 | ✅ |
 
 ### M2.3 — Hacker News Adapter
 
