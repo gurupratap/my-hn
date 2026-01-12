@@ -343,22 +343,22 @@
 | 3.1.11 | **Test:** Sort parameter selects correct ID list | milestones M3.1 | ✅ |
 | 3.1.12 | **Test:** getPostById returns single post | milestones M3.1 | ✅ |
 
-### M3.2 — Comments Service
+### M3.2 — Comments Service ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 3.2.1 | Create `services/commentsService.ts` | prd services |
-| 3.2.2 | Define `GetCommentsParams` type (postId, maxDepth) | milestones M3.2 |
-| 3.2.3 | Implement `getCommentsByPostId(postId, maxDepth?): Promise<Comment[]>` | milestones M3.2 |
-| 3.2.4 | Fetch post to get `commentIds` | milestones M3.2 |
-| 3.2.5 | Implement recursive comment fetching | milestones M3.2 |
-| 3.2.6 | Limit recursion depth (default: 3) | milestones M3.2 |
-| 3.2.7 | Build nested comment tree | milestones M3.2 |
-| 3.2.8 | Handle missing/deleted comments gracefully | milestones M3.2 |
-| 3.2.9 | Create `tests/services/commentsService.test.ts` | milestones M3.2 |
-| 3.2.10 | **Test:** Comment tree builds correctly | milestones M3.2 |
-| 3.2.11 | **Test:** Depth limiting stops recursion | milestones M3.2 |
-| 3.2.12 | **Test:** Handles missing comments without crashing | milestones M3.2 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 3.2.1 | Create `services/commentsService.ts` | prd services | ✅ |
+| 3.2.2 | Define `GetCommentsParams` type (postId, maxDepth) | milestones M3.2 | ✅ |
+| 3.2.3 | Implement `getCommentsByPostId(postId, maxDepth?): Promise<Comment[]>` | milestones M3.2 | ✅ |
+| 3.2.4 | Fetch post to get `commentIds` | milestones M3.2 | ✅ |
+| 3.2.5 | Implement recursive comment fetching | milestones M3.2 | ✅ |
+| 3.2.6 | Limit recursion depth (default: 3) | milestones M3.2 | ✅ |
+| 3.2.7 | Build nested comment tree | milestones M3.2 | ✅ |
+| 3.2.8 | Handle missing/deleted comments gracefully | milestones M3.2 | ✅ |
+| 3.2.9 | Create `tests/services/commentsService.test.ts` | milestones M3.2 | ✅ |
+| 3.2.10 | **Test:** Comment tree builds correctly | milestones M3.2 | ✅ |
+| 3.2.11 | **Test:** Depth limiting stops recursion | milestones M3.2 | ✅ |
+| 3.2.12 | **Test:** Handles missing comments without crashing | milestones M3.2 | ✅ |
 
 ### M3.3 — Client Hooks
 
