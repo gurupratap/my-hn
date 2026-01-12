@@ -6,6 +6,7 @@
  */
 
 import { type Comment, type Post, type PostType } from '../domain/models';
+import { type Adapter } from './types';
 import { config } from '../lib/config';
 import { GatewayError, NotFoundError, TimeoutError } from '../lib/errors';
 import { HttpStatus } from '../lib/http-status';
@@ -128,7 +129,7 @@ async function timeCall<T>(name: string, fn: () => Promise<T>): Promise<T> {
   }
 }
 
-export const hackerNewsAdapter = {
+export const hackerNewsAdapter: Adapter = {
   async getTopPostIds(): Promise<number[]> {
     return timeCall('hn.getTopPostIds', async () => {
       const url = `${HN_API_BASE}/topstories.json`;
@@ -185,4 +186,4 @@ export const hackerNewsAdapter = {
       return mapHNCommentToComment(item);
     });
   },
-} as const;
+};

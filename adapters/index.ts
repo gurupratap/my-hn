@@ -27,12 +27,15 @@
 
 import { config } from '../lib/config';
 import { hackerNewsAdapter } from './hackerNewsAdapter';
+import { type Adapter } from './types';
+
+export type { Adapter } from './types';
 
 /**
  * Returns the appropriate adapter based on current DATA_SOURCE config.
  * Called at runtime rather than import time for better testability.
  */
-export function getAdapter(): typeof hackerNewsAdapter {
+export function getAdapter(): Adapter {
   switch (config.DATA_SOURCE) {
     case 'hackernews':
     default:
