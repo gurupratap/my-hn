@@ -259,56 +259,56 @@
 | 2.2.9 | Add error handler for 500 server error | milestones M2.2 | ✅ |
 | 2.2.10 | Export all handlers from `mocks/handlers.ts` | milestones M2.2 | ✅ |
 
-### M2.3 — Hacker News Adapter
+### M2.3 — Hacker News Adapter ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 2.3.1 | Create `adapters/hackerNewsAdapter.ts` | prd adapters |
-| 2.3.2 | Define HN API response types (internal, not exported) | prd adapters |
-| 2.3.3 | Implement `mapHNPostToPost(hnItem)` mapping function | prd adapters |
-| 2.3.4 | Map `descendants` → `commentCount` | prd adapters |
-| 2.3.5 | Map `kids` → `commentIds` (default to []) | prd adapters |
-| 2.3.6 | Map `time` → `createdAt` (Unix → Date) | prd adapters |
-| 2.3.7 | Implement `mapHNCommentToComment(hnItem)` mapping function | prd adapters |
-| 2.3.8 | Implement `fetchWithTimeout(url, timeoutMs)` using AbortController | production-checklist §5 |
-| 2.3.9 | Throw `TimeoutError` when timeout exceeded | production-checklist §5 |
-| 2.3.10 | Implement `fetchWithRetry(url)` using `withRetry` | production-checklist §5 |
-| 2.3.11 | Implement `getTopPostIds(): Promise<number[]>` | milestones M2.3 |
-| 2.3.12 | Use `fetch()` with `next: { revalidate: 60 }` for post ID lists | production-checklist §6 |
-| 2.3.13 | Implement `getNewPostIds(): Promise<number[]>` | milestones M2.3 |
-| 2.3.14 | Implement `getBestPostIds(): Promise<number[]>` | milestones M2.3 |
-| 2.3.15 | Implement `getPostById(id): Promise<Post>` | milestones M2.3 |
-| 2.3.16 | Use `fetch()` with `next: { revalidate: 300 }` for individual posts | production-checklist §6 |
-| 2.3.17 | Throw `NotFoundError` for missing posts | production-checklist §3 |
-| 2.3.18 | Implement `getPostsByIds(ids): Promise<Post[]>` | milestones M2.3 |
-| 2.3.19 | Use `Promise.all` for batch fetching | milestones M2.3 |
-| 2.3.20 | Implement `getCommentById(id): Promise<Comment>` | milestones M2.3 |
-| 2.3.21 | Use `fetch()` with `next: { revalidate: 120 }` for comments | production-checklist §6 |
-| 2.3.22 | Log all adapter calls with duration | production-checklist §4 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 2.3.1 | Create `adapters/hackerNewsAdapter.ts` | prd adapters | ✅ |
+| 2.3.2 | Define HN API response types (internal, not exported) | prd adapters | ✅ |
+| 2.3.3 | Implement `mapHNPostToPost(hnItem)` mapping function | prd adapters | ✅ |
+| 2.3.4 | Map `descendants` → `commentCount` | prd adapters | ✅ |
+| 2.3.5 | Map `kids` → `commentIds` (default to []) | prd adapters | ✅ |
+| 2.3.6 | Map `time` → `createdAt` (Unix → Date) | prd adapters | ✅ |
+| 2.3.7 | Implement `mapHNCommentToComment(hnItem)` mapping function | prd adapters | ✅ |
+| 2.3.8 | Implement `fetchWithTimeout(url, timeoutMs)` using AbortController | production-checklist §5 | ✅ |
+| 2.3.9 | Throw `TimeoutError` when timeout exceeded | production-checklist §5 | ✅ |
+| 2.3.10 | Implement `fetchWithRetry(url)` using `withRetry` | production-checklist §5 | ✅ |
+| 2.3.11 | Implement `getTopPostIds(): Promise<number[]>` | milestones M2.3 | ✅ |
+| 2.3.12 | Use `fetch()` with `next: { revalidate: 60 }` for post ID lists | production-checklist §6 | ✅ |
+| 2.3.13 | Implement `getNewPostIds(): Promise<number[]>` | milestones M2.3 | ✅ |
+| 2.3.14 | Implement `getBestPostIds(): Promise<number[]>` | milestones M2.3 | ✅ |
+| 2.3.15 | Implement `getPostById(id): Promise<Post>` | milestones M2.3 | ✅ |
+| 2.3.16 | Use `fetch()` with `next: { revalidate: 300 }` for individual posts | production-checklist §6 | ✅ |
+| 2.3.17 | Throw `NotFoundError` for missing posts | production-checklist §3 | ✅ |
+| 2.3.18 | Implement `getPostsByIds(ids): Promise<Post[]>` | milestones M2.3 | ✅ |
+| 2.3.19 | Use `Promise.all` for batch fetching | milestones M2.3 | ✅ |
+| 2.3.20 | Implement `getCommentById(id): Promise<Comment>` | milestones M2.3 | ✅ |
+| 2.3.21 | Use `fetch()` with `next: { revalidate: 120 }` for comments | production-checklist §6 | ✅ |
+| 2.3.22 | Log all adapter calls with duration | production-checklist §4 | ✅ |
 
-### M2.4 — Adapter Tests
+### M2.4 — Adapter Tests ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 2.4.1 | Create `tests/adapters/hackerNewsAdapter.test.ts` | milestones M2.4 |
-| 2.4.2 | **Test:** `mapHNPostToPost` maps all fields correctly | milestones M2.4 |
-| 2.4.3 | **Test:** `mapHNCommentToComment` maps all fields correctly | milestones M2.4 |
-| 2.4.4 | **Test:** `getTopPostIds()` returns array of numbers | milestones M2.4 |
-| 2.4.5 | **Test:** `getPostById()` returns valid Post | milestones M2.4 |
-| 2.4.6 | **Test:** `getPostById()` throws NotFoundError for 404 | milestones M2.4 |
-| 2.4.7 | **Test:** Adapter retries on 500 then throws GatewayError | milestones M2.4 |
-| 2.4.8 | **Test:** Timeout triggers TimeoutError | milestones M2.4 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 2.4.1 | Create `tests/adapters/hackerNewsAdapter.test.ts` | milestones M2.4 | ✅ |
+| 2.4.2 | **Test:** `mapHNPostToPost` maps all fields correctly | milestones M2.4 | ✅ |
+| 2.4.3 | **Test:** `mapHNCommentToComment` maps all fields correctly | milestones M2.4 | ✅ |
+| 2.4.4 | **Test:** `getTopPostIds()` returns array of numbers | milestones M2.4 | ✅ |
+| 2.4.5 | **Test:** `getPostById()` returns valid Post | milestones M2.4 | ✅ |
+| 2.4.6 | **Test:** `getPostById()` throws NotFoundError for 404 | milestones M2.4 | ✅ |
+| 2.4.7 | **Test:** Adapter retries on 500 then throws GatewayError | milestones M2.4 | ✅ |
+| 2.4.8 | **Test:** Timeout triggers TimeoutError | milestones M2.4 | ✅ |
 
 **Note:** Next.js fetch caching is tested at integration level, not unit tests.
 
-### M2.5 — Adapter Index
+### M2.5 — Adapter Index ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 2.5.1 | Create `adapters/index.ts` | prd adapters |
-| 2.5.2 | Import hackerNewsAdapter | prd adapters |
-| 2.5.3 | Export adapter based on `DATA_SOURCE` config | prd adapters |
-| 2.5.4 | Add comment documenting how to swap adapters | prd backend swap |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 2.5.1 | Create `adapters/index.ts` | prd adapters | ✅ |
+| 2.5.2 | Import hackerNewsAdapter | prd adapters | ✅ |
+| 2.5.3 | Export adapter based on `DATA_SOURCE` config | prd adapters | ✅ |
+| 2.5.4 | Add comment documenting how to swap adapters | prd backend swap | ✅ |
 
 ### M2 Acceptance Checklist
 
@@ -326,22 +326,22 @@
 
 ## M3: Services Layer
 
-### M3.1 — Posts Service
+### M3.1 — Posts Service ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 3.1.1 | Create `services/postsService.ts` | prd services |
-| 3.1.2 | Define `FetchPostsParams` type (sort, pageSize, page) | milestones M3.1 |
-| 3.1.3 | Define `SortType` as 'top' \| 'new' \| 'best' | milestones M3.1 |
-| 3.1.4 | Implement `fetchPosts(params): Promise<Post[]>` | milestones M3.1 |
-| 3.1.5 | Call correct adapter method based on sort | milestones M3.1 |
-| 3.1.6 | Slice post IDs for pagination | milestones M3.1 |
-| 3.1.7 | Batch fetch posts using `getPostsByIds` | milestones M3.1 |
-| 3.1.8 | Implement `getPostById(id): Promise<Post>` | milestones M3.1 |
-| 3.1.9 | Create `tests/services/postsService.test.ts` | milestones M3.1 |
-| 3.1.10 | **Test:** Pagination returns correct slice | milestones M3.1 |
-| 3.1.11 | **Test:** Sort parameter selects correct ID list | milestones M3.1 |
-| 3.1.12 | **Test:** getPostById returns single post | milestones M3.1 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 3.1.1 | Create `services/postsService.ts` | prd services | ✅ |
+| 3.1.2 | Define `FetchPostsParams` type (sort, pageSize, page) | milestones M3.1 | ✅ |
+| 3.1.3 | Define `SortType` as 'top' \| 'new' \| 'best' | milestones M3.1 | ✅ |
+| 3.1.4 | Implement `fetchPosts(params): Promise<Post[]>` | milestones M3.1 | ✅ |
+| 3.1.5 | Call correct adapter method based on sort | milestones M3.1 | ✅ |
+| 3.1.6 | Slice post IDs for pagination | milestones M3.1 | ✅ |
+| 3.1.7 | Batch fetch posts using `getPostsByIds` | milestones M3.1 | ✅ |
+| 3.1.8 | Implement `getPostById(id): Promise<Post>` | milestones M3.1 | ✅ |
+| 3.1.9 | Create `tests/services/postsService.test.ts` | milestones M3.1 | ✅ |
+| 3.1.10 | **Test:** Pagination returns correct slice | milestones M3.1 | ✅ |
+| 3.1.11 | **Test:** Sort parameter selects correct ID list | milestones M3.1 | ✅ |
+| 3.1.12 | **Test:** getPostById returns single post | milestones M3.1 | ✅ |
 
 ### M3.2 — Comments Service
 
