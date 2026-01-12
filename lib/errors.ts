@@ -9,6 +9,27 @@
  * - Stack trace capture
  */
 
+import { HttpStatus } from './http-status';
+
+/**
+ * Error codes for programmatic error handling
+ */
+export const ErrorCode = {
+  GATEWAY_ERROR: 'GATEWAY_ERROR',
+  NOT_FOUND: 'NOT_FOUND',
+  TIMEOUT: 'TIMEOUT',
+} as const;
+
+/**
+ * Default error messages
+ */
+export const ErrorMessage = {
+  GATEWAY_ERROR: 'Upstream service error',
+  NOT_FOUND: 'Resource not found',
+  TIMEOUT: 'Request timed out',
+  GENERIC: 'Something went wrong. Please try again later.',
+} as const;
+
 /**
  * Base application error class.
  * All custom errors should extend this class.
@@ -73,8 +94,8 @@ export class AppError extends Error {
  * Status: 502 Bad Gateway
  */
 export class GatewayError extends AppError {
-  constructor(message: string = 'Upstream service error') {
-    super(message, 'GATEWAY_ERROR', 502, true);
+  constructor(message: string = ErrorMessage.GATEWAY_ERROR) {
+    super(message, ErrorCode.GATEWAY_ERROR, HttpStatus.BAD_GATEWAY, true);
   }
 }
 
@@ -83,8 +104,8 @@ export class GatewayError extends AppError {
  * Status: 404 Not Found
  */
 export class NotFoundError extends AppError {
-  constructor(message: string = 'Resource not found') {
-    super(message, 'NOT_FOUND', 404, true);
+  constructor(message: string = ErrorMessage.NOT_FOUND) {
+    super(message, ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, true);
   }
 }
 
@@ -93,8 +114,8 @@ export class NotFoundError extends AppError {
  * Status: 504 Gateway Timeout
  */
 export class TimeoutError extends AppError {
-  constructor(message: string = 'Request timed out') {
-    super(message, 'TIMEOUT', 504, true);
+  constructor(message: string = ErrorMessage.TIMEOUT) {
+    super(message, ErrorCode.TIMEOUT, HttpStatus.GATEWAY_TIMEOUT, true);
   }
 }
 
@@ -114,5 +135,5 @@ export function getUserFriendlyMessage(error: unknown): string {
   }
 
   // For non-operational errors, return a generic message
-  return 'Something went wrong. Please try again later.';
+  return ErrorMessage.GENERIC;
 }

@@ -6,6 +6,7 @@
  */
 
 import { isAppError } from './errors';
+import { HttpStatus, isServerError, isClientError } from './http-status';
 import { logger } from './logger';
 
 /**
@@ -80,9 +81,9 @@ const NETWORK_ERROR_PATTERNS = [
  */
 function isRetryableStatusCode(status: number | undefined): boolean | null {
   if (status === undefined) return null;
-  if (status >= 500 && status <= 599) return true;
-  if (status === 429) return true;
-  if (status >= 400 && status <= 499) return false;
+  if (isServerError(status)) return true;
+  if (status === HttpStatus.TOO_MANY_REQUESTS) return true;
+  if (isClientError(status)) return false;
   return null;
 }
 

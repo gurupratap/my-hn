@@ -12,7 +12,10 @@ import {
   TimeoutError,
   isAppError,
   getUserFriendlyMessage,
+  ErrorCode,
+  ErrorMessage,
 } from '../../lib/errors';
+import { HttpStatus } from '../../lib/http-status';
 
 describe('AppError', () => {
   it('has correct properties', () => {
@@ -65,19 +68,19 @@ describe('GatewayError', () => {
   it('has correct status code (502)', () => {
     const error = new GatewayError();
 
-    expect(error.statusCode).toBe(502);
+    expect(error.statusCode).toBe(HttpStatus.BAD_GATEWAY);
   });
 
   it('has correct error code', () => {
     const error = new GatewayError();
 
-    expect(error.code).toBe('GATEWAY_ERROR');
+    expect(error.code).toBe(ErrorCode.GATEWAY_ERROR);
   });
 
   it('has default message', () => {
     const error = new GatewayError();
 
-    expect(error.message).toBe('Upstream service error');
+    expect(error.message).toBe(ErrorMessage.GATEWAY_ERROR);
   });
 
   it('accepts custom message', () => {
@@ -105,19 +108,19 @@ describe('NotFoundError', () => {
   it('has correct status code (404)', () => {
     const error = new NotFoundError();
 
-    expect(error.statusCode).toBe(404);
+    expect(error.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
 
   it('has correct error code', () => {
     const error = new NotFoundError();
 
-    expect(error.code).toBe('NOT_FOUND');
+    expect(error.code).toBe(ErrorCode.NOT_FOUND);
   });
 
   it('has default message', () => {
     const error = new NotFoundError();
 
-    expect(error.message).toBe('Resource not found');
+    expect(error.message).toBe(ErrorMessage.NOT_FOUND);
   });
 
   it('accepts custom message', () => {
@@ -145,19 +148,19 @@ describe('TimeoutError', () => {
   it('has correct status code (504)', () => {
     const error = new TimeoutError();
 
-    expect(error.statusCode).toBe(504);
+    expect(error.statusCode).toBe(HttpStatus.GATEWAY_TIMEOUT);
   });
 
   it('has correct error code', () => {
     const error = new TimeoutError();
 
-    expect(error.code).toBe('TIMEOUT');
+    expect(error.code).toBe(ErrorCode.TIMEOUT);
   });
 
   it('has default message', () => {
     const error = new TimeoutError();
 
-    expect(error.message).toBe('Request timed out');
+    expect(error.message).toBe(ErrorMessage.TIMEOUT);
   });
 
   it('accepts custom message', () => {
@@ -231,25 +234,17 @@ describe('getUserFriendlyMessage', () => {
   it('returns generic message for non-operational AppError', () => {
     const error = new AppError('Internal error', 'INTERNAL', 500, false);
 
-    expect(getUserFriendlyMessage(error)).toBe(
-      'Something went wrong. Please try again later.'
-    );
+    expect(getUserFriendlyMessage(error)).toBe(ErrorMessage.GENERIC);
   });
 
   it('returns generic message for standard Error', () => {
     const error = new Error('Standard error');
 
-    expect(getUserFriendlyMessage(error)).toBe(
-      'Something went wrong. Please try again later.'
-    );
+    expect(getUserFriendlyMessage(error)).toBe(ErrorMessage.GENERIC);
   });
 
   it('returns generic message for non-error values', () => {
-    expect(getUserFriendlyMessage(null)).toBe(
-      'Something went wrong. Please try again later.'
-    );
-    expect(getUserFriendlyMessage('string error')).toBe(
-      'Something went wrong. Please try again later.'
-    );
+    expect(getUserFriendlyMessage(null)).toBe(ErrorMessage.GENERIC);
+    expect(getUserFriendlyMessage('string error')).toBe(ErrorMessage.GENERIC);
   });
 });
