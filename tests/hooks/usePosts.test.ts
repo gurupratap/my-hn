@@ -4,189 +4,60 @@
 
 import { renderHook, waitFor, act } from '@testing-library/react';
 import { usePosts } from '../../hooks/usePosts';
+import type { Post } from '../../domain/models';
 
 // Mock fetch globally
 const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
-const mockPosts = [
-  {
-    id: 1,
-    type: 'story',
-    title: 'Test Post 1',
-    author: 'user1',
-    points: 100,
-    commentCount: 10,
-    commentIds: [],
-    createdAt: '2024-01-01T00:00:00.000Z',
-  },
-  {
-    id: 2,
-    type: 'story',
-    title: 'Test Post 2',
-    author: 'user2',
-    points: 50,
-    commentCount: 5,
-    commentIds: [],
-    createdAt: '2024-01-02T00:00:00.000Z',
-  },
-];
+const createMockPost = (id: number): Post => ({
+  id,
+  title: `Test Post ${id}`,
+  author: `user${id}`,
+  points: 100 - id * 10,
+  commentCount: 10 - id,
+  commentIds: [],
+  createdAt: new Date(`2024-01-0${id}T00:00:00.000Z`),
+});
+
+const mockInitialPosts: Post[] = [createMockPost(1), createMockPost(2)];
 
 describe('usePosts', () => {
   beforeEach(() => {
     mockFetch.mockClear();
   });
 
-  it('starts with loading state', () => {
-    mockFetch.mockImplementation(() => new Promise(() => {})); // Never resolves
-
-    const { result } = renderHook(() => usePosts());
-
-    expect(result.current.loading).toBe(true);
-    expect(result.current.posts).toEqual([]);
-    expect(result.current.error).toBeNull();
-  });
-
-  it('fetches posts successfully', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockPosts,
-    });
-
-    const { result } = renderHook(() => usePosts());
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-    });
-
-    expect(result.current.posts).toHaveLength(2);
-    expect(result.current.posts[0].id).toBe(1);
-    expect(result.current.posts[0].title).toBe('Test Post 1');
-    expect(result.current.error).toBeNull();
-  });
-
-  it('converts date strings to Date objects', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockPosts,
-    });
-
-    const { result } = renderHook(() => usePosts());
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-    });
-
-    expect(result.current.posts[0].createdAt instanceof Date).toBe(true);
-  });
-
-  it('handles fetch error', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: false,
-      status: 500,
-    });
-
-    const { result } = renderHook(() => usePosts());
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-    });
-
-    expect(result.current.error).not.toBeNull();
-    expect(result.current.error?.message).toContain('500');
-    expect(result.current.posts).toEqual([]);
-  });
-
-  it('uses correct sort parameter in URL', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => [],
-    });
-
-    renderHook(() => usePosts({ sort: 'new' }));
-
-    await waitFor(() => {
-      expect(mockFetch).toHaveBeenCalled();
-    });
-
-    expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('sort=new')
+  it('initializes with provided initialPosts', () => {
+    const { result } = renderHook(() =>
+      usePosts({ initialPosts: mockInitialPosts, sort: 'top' })
     );
+
+    expect(result.current.posts).toEqual(mockInitialPosts);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.hasMore).toBe(false); // 2 posts < 30 pageSize
   });
 
-  it('uses correct pageSize parameter in URL', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => [],
-    });
-
-    renderHook(() => usePosts({ pageSize: 10 }));
-
-    await waitFor(() => {
-      expect(mockFetch).toHaveBeenCalled();
-    });
-
-    expect(mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining('pageSize=10')
+  it('sets hasMore to true when initialPosts length equals pageSize', () => {
+    const { result } = renderHook(() =>
+      usePosts({ initialPosts: mockInitialPosts, sort: 'top', pageSize: 2 })
     );
+
+    expect(result.current.hasMore).toBe(true);
   });
 
-  it('refetch resets and fetches posts again', async () => {
-    mockFetch
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => mockPosts,
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => [mockPosts[0]],
-      });
-
-    const { result } = renderHook(() => usePosts());
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-    });
-
-    expect(result.current.posts).toHaveLength(2);
-
-    await act(async () => {
-      await result.current.refetch();
-    });
-
-    expect(result.current.posts).toHaveLength(1);
-  });
-
-  it('loadMore appends posts', async () => {
-    const page1Posts = mockPosts;
+  it('loadMore fetches and appends posts', async () => {
     const page2Posts = [
-      {
-        id: 3,
-        type: 'story',
-        title: 'Test Post 3',
-        author: 'user3',
-        points: 25,
-        commentCount: 2,
-        commentIds: [],
-        createdAt: '2024-01-03T00:00:00.000Z',
-      },
+      { ...createMockPost(3), createdAt: '2024-01-03T00:00:00.000Z' },
     ];
 
-    mockFetch
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => page1Posts,
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => page2Posts,
-      });
-
-    const { result } = renderHook(() => usePosts({ pageSize: 2 }));
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => page2Posts,
     });
+
+    const { result } = renderHook(() =>
+      usePosts({ initialPosts: mockInitialPosts, sort: 'top', pageSize: 2 })
+    );
 
     expect(result.current.posts).toHaveLength(2);
 
@@ -198,16 +69,144 @@ describe('usePosts', () => {
     expect(result.current.posts[2].id).toBe(3);
   });
 
-  it('sets hasMore to false when fewer posts returned than pageSize', async () => {
+  it('loadMore uses correct URL parameters', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: async () => [mockPosts[0]], // Only 1 post when pageSize is 30
+      json: async () => [],
     });
 
-    const { result } = renderHook(() => usePosts({ pageSize: 30 }));
+    // pageSize must equal initialPosts length for hasMore to be true
+    const { result } = renderHook(() =>
+      usePosts({ initialPosts: mockInitialPosts, sort: 'new', pageSize: 2 })
+    );
 
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
+    await act(async () => {
+      await result.current.loadMore();
+    });
+
+    expect(mockFetch).toHaveBeenCalledWith('/api/posts?sort=new&page=2&pageSize=2');
+  });
+
+  it('loadMore converts date strings to Date objects', async () => {
+    const page2Posts = [
+      { ...createMockPost(3), createdAt: '2024-01-03T00:00:00.000Z' },
+    ];
+
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => page2Posts,
+    });
+
+    // pageSize must equal initialPosts length for hasMore to be true
+    const { result } = renderHook(() =>
+      usePosts({ initialPosts: mockInitialPosts, sort: 'top', pageSize: 2 })
+    );
+
+    await act(async () => {
+      await result.current.loadMore();
+    });
+
+    // Check that the newly loaded post has Date object
+    expect(result.current.posts[2].createdAt instanceof Date).toBe(true);
+  });
+
+  it('loadMore deduplicates posts by ID', async () => {
+    // Return a post with same ID as existing post
+    const duplicatePosts = [
+      { ...createMockPost(1), createdAt: '2024-01-01T00:00:00.000Z' },
+      { ...createMockPost(3), createdAt: '2024-01-03T00:00:00.000Z' },
+    ];
+
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => duplicatePosts,
+    });
+
+    const { result } = renderHook(() =>
+      usePosts({ initialPosts: mockInitialPosts, sort: 'top', pageSize: 2 })
+    );
+
+    await act(async () => {
+      await result.current.loadMore();
+    });
+
+    // Should only add post 3, not duplicate post 1
+    expect(result.current.posts).toHaveLength(3);
+    expect(result.current.posts.map((p) => p.id)).toEqual([1, 2, 3]);
+  });
+
+  it('loadMore does nothing when already loading', async () => {
+    mockFetch.mockImplementation(
+      () => new Promise((resolve) => setTimeout(resolve, 1000))
+    );
+
+    const { result } = renderHook(() =>
+      usePosts({ initialPosts: mockInitialPosts, sort: 'top', pageSize: 2 })
+    );
+
+    // Start first loadMore
+    act(() => {
+      result.current.loadMore();
+    });
+
+    // Try to call again while loading
+    act(() => {
+      result.current.loadMore();
+    });
+
+    // Should only have called fetch once
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('loadMore does nothing when hasMore is false', async () => {
+    const { result } = renderHook(() =>
+      usePosts({ initialPosts: mockInitialPosts, sort: 'top', pageSize: 30 })
+    );
+
+    // hasMore should be false (2 posts < 30 pageSize)
+    expect(result.current.hasMore).toBe(false);
+
+    await act(async () => {
+      await result.current.loadMore();
+    });
+
+    expect(mockFetch).not.toHaveBeenCalled();
+  });
+
+  it('resets state when sort changes', () => {
+    const newPosts = [createMockPost(5), createMockPost(6)];
+
+    const { result, rerender } = renderHook(
+      ({ initialPosts, sort }) => usePosts({ initialPosts, sort, pageSize: 2 }),
+      { initialProps: { initialPosts: mockInitialPosts, sort: 'top' as const } }
+    );
+
+    expect(result.current.posts.map((p) => p.id)).toEqual([1, 2]);
+
+    // Simulate navigation with new sort and new posts
+    rerender({ initialPosts: newPosts, sort: 'new' as const });
+
+    expect(result.current.posts.map((p) => p.id)).toEqual([5, 6]);
+  });
+
+  it('sets hasMore to false when loadMore returns fewer posts than pageSize', async () => {
+    const partialPage = [
+      { ...createMockPost(3), createdAt: '2024-01-03T00:00:00.000Z' },
+    ];
+
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => partialPage,
+    });
+
+    const { result } = renderHook(() =>
+      usePosts({ initialPosts: mockInitialPosts, sort: 'top', pageSize: 2 })
+    );
+
+    expect(result.current.hasMore).toBe(true);
+
+    await act(async () => {
+      await result.current.loadMore();
     });
 
     expect(result.current.hasMore).toBe(false);

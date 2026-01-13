@@ -385,83 +385,83 @@
 
 ## M4: Post List Page
 
-### M4.1 — Post List Page
+### M4.1 — Post List Page ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 4.1.1 | Create `app/page.tsx` as server component | prd pages |
-| 4.1.2 | Parse sort from URL search params (default: 'top') | milestones M4.1 |
-| 4.1.3 | Call `postsService.fetchPosts()` server-side | milestones M4.1 |
-| 4.1.4 | Pass posts to `PostList` component | milestones M4.1 |
-| 4.1.5 | Create `app/loading.tsx` with skeleton UI | milestones M4.1 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 4.1.1 | Create `app/page.tsx` as server component | prd pages | ✅ |
+| 4.1.2 | Parse sort from URL search params (default: 'top') | milestones M4.1 | ✅ |
+| 4.1.3 | Call `postsService.fetchPosts()` server-side | milestones M4.1 | ✅ |
+| 4.1.4 | Pass posts to `PostList` component | milestones M4.1 | ✅ |
+| 4.1.5 | Create `app/loading.tsx` with skeleton UI | milestones M4.1 | ✅ |
 
-### M4.2 — PostList Component
+### M4.2 — PostList Component ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 4.2.1 | Create `components/PostList.tsx` | prd components |
-| 4.2.2 | Accept `posts: Post[]` prop | prd components |
-| 4.2.3 | Render list of `PostItem` components | prd components |
-| 4.2.4 | Pass rank (index + 1) to each PostItem | prd scope |
-| 4.2.5 | Implement empty state UI | milestones M4.2 |
-| 4.2.6 | Style with Tailwind (mobile-first) | prd scope |
-| 4.2.7 | Create `tests/components/PostList.test.tsx` | milestones M4.2 |
-| 4.2.8 | **Test:** Renders correct number of posts | milestones M4.2 |
-| 4.2.9 | **Test:** Empty state shown when no posts | milestones M4.2 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 4.2.1 | Create `components/PostList.tsx` | prd components | ✅ |
+| 4.2.2 | Accept `posts: Post[]` prop | prd components | ✅ |
+| 4.2.3 | Render list of `PostItem` components | prd components | ✅ |
+| 4.2.4 | Pass rank (index + 1) to each PostItem | prd scope | ✅ |
+| 4.2.5 | Implement empty state UI | milestones M4.2 | ✅ |
+| 4.2.6 | Style with Tailwind (mobile-first) | prd scope | ✅ |
+| 4.2.7 | Create `tests/components/PostList.test.tsx` | milestones M4.2 | ✅ |
+| 4.2.8 | **Test:** Renders correct number of posts | milestones M4.2 | ✅ |
+| 4.2.9 | **Test:** Empty state shown when no posts | milestones M4.2 | ✅ |
 
-### M4.3 — PostItem Component
+### M4.3 — PostItem Component ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 4.3.1 | Create `components/PostItem.tsx` | prd components |
-| 4.3.2 | Accept `post: Post` and `rank: number` props | prd components |
-| 4.3.3 | Display rank number | prd scope |
-| 4.3.4 | Display title with link (external URL or detail page) | prd scope |
-| 4.3.5 | Extract and display domain from URL | prd scope |
-| 4.3.6 | Display author name | prd scope |
-| 4.3.7 | Display points count | prd scope |
-| 4.3.8 | Display comment count with link to detail page | prd scope |
-| 4.3.9 | Display relative time (e.g., "2 hours ago") | prd scope |
-| 4.3.10 | Use Next.js `<Link>` for internal navigation | prd components |
-| 4.3.11 | Style with Tailwind | prd scope |
-| 4.3.12 | Create `tests/components/PostItem.test.tsx` | milestones M4.3 |
-| 4.3.13 | **Test:** All fields rendered correctly | milestones M4.3 |
-| 4.3.14 | **Test:** External URL opens in new tab | milestones M4.3 |
-| 4.3.15 | **Test:** Comment link has correct href | milestones M4.3 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 4.3.1 | Create `components/PostItem.tsx` | prd components | ✅ |
+| 4.3.2 | Accept `post: Post` and `rank: number` props | prd components | ✅ |
+| 4.3.3 | Display rank number | prd scope | ✅ |
+| 4.3.4 | Display title with link (external URL or detail page) | prd scope | ✅ |
+| 4.3.5 | Extract and display domain from URL | prd scope | ✅ |
+| 4.3.6 | Display author name | prd scope | ✅ |
+| 4.3.7 | Display points count | prd scope | ✅ |
+| 4.3.8 | Display comment count with link to detail page | prd scope | ✅ |
+| 4.3.9 | Display relative time (e.g., "2 hours ago") | prd scope | ✅ |
+| 4.3.10 | Use Next.js `<Link>` for internal navigation | prd components | ✅ |
+| 4.3.11 | Style with Tailwind | prd scope | ✅ |
+| 4.3.12 | Create `tests/components/PostItem.test.tsx` | milestones M4.3 | ✅ |
+| 4.3.13 | **Test:** All fields rendered correctly | milestones M4.3 | ✅ |
+| 4.3.14 | **Test:** External URL opens in new tab | milestones M4.3 | ✅ |
+| 4.3.15 | **Test:** Comment link has correct href | milestones M4.3 | ✅ |
 
-### M4.4 — Sorting Controls
+### M4.4 — Sorting Controls ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 4.4.1 | Create `components/SortTabs.tsx` | prd components |
-| 4.4.2 | Display tabs: Top, New, Best | prd scope |
-| 4.4.3 | Accept `activeSort: SortType` prop | milestones M4.4 |
-| 4.4.4 | Use URL search params for navigation | milestones M4.4 |
-| 4.4.5 | Highlight active tab | milestones M4.4 |
-| 4.4.6 | Style with Tailwind | prd scope |
-| 4.4.7 | Create `tests/components/SortTabs.test.tsx` | milestones M4.4 |
-| 4.4.8 | **Test:** Active tab is highlighted | milestones M4.4 |
-| 4.4.9 | **Test:** Tab links have correct hrefs | milestones M4.4 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 4.4.1 | Create `components/SortTabs.tsx` | prd components | ✅ |
+| 4.4.2 | Display tabs: Top, New, Best | prd scope | ✅ |
+| 4.4.3 | Accept `activeSort: SortType` prop | milestones M4.4 | ✅ |
+| 4.4.4 | Use URL search params for navigation | milestones M4.4 | ✅ |
+| 4.4.5 | Highlight active tab | milestones M4.4 | ✅ |
+| 4.4.6 | Style with Tailwind | prd scope | ✅ |
+| 4.4.7 | Create `tests/components/SortTabs.test.tsx` | milestones M4.4 | ✅ |
+| 4.4.8 | **Test:** Active tab is highlighted | milestones M4.4 | ✅ |
+| 4.4.9 | **Test:** Tab links have correct hrefs | milestones M4.4 | ✅ |
 
-### M4.5 — Load More
+### M4.5 — Load More ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 4.5.1 | Create `components/LoadMoreButton.tsx` (client component) | milestones M4.5 |
-| 4.5.2 | Implement onClick to fetch next page | milestones M4.5 |
-| 4.5.3 | Append new posts to existing list | milestones M4.5 |
-| 4.5.4 | Show loading state while fetching | milestones M4.5 |
-| 4.5.5 | Hide button when no more posts | milestones M4.5 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 4.5.1 | Create `components/LoadMoreButton.tsx` (client component) | milestones M4.5 | ✅ |
+| 4.5.2 | Implement onClick to fetch next page | milestones M4.5 | ✅ |
+| 4.5.3 | Append new posts to existing list | milestones M4.5 | ✅ |
+| 4.5.4 | Show loading state while fetching | milestones M4.5 | ✅ |
+| 4.5.5 | Hide button when no more posts | milestones M4.5 | ✅ |
 
-### M4.6 — Navbar
+### M4.6 — Navbar ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 4.6.1 | Create `components/Navbar.tsx` | prd components |
-| 4.6.2 | Add logo/title with link to home | prd components |
-| 4.6.3 | Add navigation links | prd components |
-| 4.6.4 | Style with Tailwind | prd scope |
-| 4.6.5 | Add Navbar to `app/layout.tsx` | milestones M4.6 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 4.6.1 | Create `components/Navbar.tsx` | prd components | ✅ |
+| 4.6.2 | Add logo/title with link to home | prd components | ✅ |
+| 4.6.3 | Add navigation links | prd components | ✅ |
+| 4.6.4 | Style with Tailwind | prd scope | ✅ |
+| 4.6.5 | Add Navbar to `app/layout.tsx` | milestones M4.6 | ✅ |
 
 ### M4 Acceptance Checklist
 
