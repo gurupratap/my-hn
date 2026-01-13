@@ -156,6 +156,36 @@ Failed requests are retried with exponential backoff:
 - No retry on: 4xx client errors (except 429)
 - Configurable via `API_RETRY_COUNT` and retry options
 
+## AI Usage
+
+This project was built with assistance from various AI tools throughout different phases.
+
+### Tools Used
+
+- **ChatGPT (Deep Research)** - Brainstorming product requirements
+- **Claude Opus 4.5** - Refining requirements and development
+- **Cursor** - Code development
+- **Claude Code** - Primary development tool
+- **Wingman (Dedalus Labs)** - Code development
+
+### Workflow
+
+**Planning Phase:**
+
+1. Used GPT 5.2 Deep Research to brainstorm and finalize the project scope
+2. Built the glossary and PRD based on the research output
+3. Used Claude Opus 4.5 to refine these into milestones and generate production requirements
+4. Generated tasks for each milestone in `tasks.md`
+
+**Development Phase:**
+
+1. Picked a milestone from `tasks.md`
+2. Used Cursor/Claude Code to complete the tasks (most development done with Claude Code)
+3. Reviewed the changes
+4. Fixed any issues
+5. Committed the changes
+6. Repeated for the next milestone
+
 ## License
 
 Private
