@@ -16,10 +16,9 @@ export default function Navbar(): React.ReactElement {
           href="/"
           className="flex items-center gap-2 font-bold text-white hover:opacity-90"
         >
-          <span className="flex h-6 w-6 items-center justify-center rounded border-2 border-white text-xs">
-            Y
+          <span className="flex items-center justify-center rounded border-2 border-white px-1.5 py-0.5 text-xs">
+            my-hn
           </span>
-          <span>Hacker News</span>
         </Link>
       </nav>
     </header>
