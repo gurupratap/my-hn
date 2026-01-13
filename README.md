@@ -10,26 +10,6 @@ A Hacker News client built with Next.js 16 and React 19.
 - **Logging**: Pino
 - **Language**: TypeScript 5
 
-## Project Structure
-
-```
-my-hn/
-├── adapters/           # Data source adapters
-│   ├── types.ts        # Adapter interface definition
-│   ├── hackerNewsAdapter.ts  # HN API implementation
-│   └── index.ts        # Adapter factory
-├── app/                # Next.js App Router pages
-├── domain/             # Domain models (Post, Comment, User)
-├── lib/                # Shared utilities
-│   ├── config.ts       # Environment configuration
-│   ├── errors.ts       # Custom error classes
-│   ├── http-status.ts  # HTTP status constants
-│   ├── logger.ts       # Pino logger
-│   └── retry.ts        # Retry with exponential backoff
-├── mocks/              # MSW mock handlers for testing
-└── tests/              # Test files mirroring source structure
-```
-
 ## Getting Started
 
 ### Prerequisites
@@ -139,14 +119,6 @@ To add a new data source:
 1. Create `adapters/yourAdapter.ts` implementing `Adapter`
 2. Add a case in `adapters/index.ts` switch statement
 3. Set `DATA_SOURCE=yoursource` in environment
-
-### Error Handling
-
-Custom error classes extend `AppError`:
-
-- `GatewayError` (502) - Upstream API failures
-- `NotFoundError` (404) - Resource not found
-- `TimeoutError` (504) - Request timeout
 
 ### Retry Logic
 
