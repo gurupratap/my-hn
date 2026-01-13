@@ -1,0 +1,30 @@
+services:
+  # Production build
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - HN_API_BASE_URL=https://hacker-news.firebaseio.com
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - HN_API_BASE_URL=https://hacker-news.firebaseio.com
+      - LOG_LEVEL=error
+    restart: unless-stopped
+
+  # Development with hot-reload
+  dev:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - HN_API_BASE_URL=https://hacker-news.firebaseio.com
+      - WATCHPACK_POLLING=true
+    command: sh -c "npm install && npm run dev"

@@ -82,6 +82,26 @@ npm start
 npm run lint
 ```
 
+### Docker
+
+Run the application using Docker Compose:
+
+```bash
+# Production build and run
+docker compose up app
+
+# Development with hot-reload
+docker compose up dev
+```
+
+The dev service mounts your local directory and runs `npm run dev` with hot-reload enabled.
+
+To rebuild after changes to Dockerfile or dependencies:
+
+```bash
+docker compose build app
+```
+
 ## Testing
 
 ```bash

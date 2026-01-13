@@ -1,0 +1,62 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.*
+
+# Build outputs
+.next
+out
+build
+dist
+
+# Testing
+coverage
+tests
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+jest.config.*
+jest.setup.*
+
+# Development
+.env*
+.env.local
+.env.development
+.env.test
+
+# Version control
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Documentation
+*.md
+docs
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Misc
+.vercel
+.turbo
