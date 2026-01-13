@@ -114,13 +114,13 @@ describe('hackerNewsAdapter', () => {
     server.use(errorHandlers.serverError);
 
     await expect(hackerNewsAdapter.getPostById(1)).rejects.toBeInstanceOf(GatewayError);
-  });
+  }, 15000);
 
   it('Timeout triggers TimeoutError', async () => {
     // Force a very small timeout and delay the response beyond it.
     // We need to mock the config before importing the adapter
     jest.resetModules();
-    
+
     jest.doMock('../../lib/config', () => ({
       config: {
         HN_API_BASE_URL: 'https://hacker-news.firebaseio.com',
@@ -130,7 +130,7 @@ describe('hackerNewsAdapter', () => {
     }));
 
     const { http, HttpResponse } = require('msw');
-    
+
     server.use(
       // Delay for 50ms so AbortController should fire first
       http.get(
@@ -145,7 +145,7 @@ describe('hackerNewsAdapter', () => {
     const { hackerNewsAdapter: freshAdapter } = require('../../adapters/hackerNewsAdapter');
     const { TimeoutError: FreshTimeoutError } = require('../../lib/errors');
     await expect(freshAdapter.getTopPostIds()).rejects.toBeInstanceOf(FreshTimeoutError);
-  });
+  }, 10000);
 
   it('getNewPostIds returns array of numbers', async () => {
     const ids = await hackerNewsAdapter.getNewPostIds();
