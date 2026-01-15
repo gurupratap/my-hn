@@ -5,9 +5,8 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import type { Post } from '../domain/models';
 import type { SortType } from '../services/postsService';
 import { usePosts } from '../hooks/usePosts';
-import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import PostItem from './PostItem';
-import LoadingIndicator from './LoadingIndicator';
+import InfiniteScrollContainer from './InfiniteScrollContainer';
 
 interface VirtualizedPostListProps {
   initialPosts: Post[];
@@ -28,13 +27,6 @@ export default function VirtualizedPostList({
     initialPosts,
     sort,
     pageSize,
-  });
-
-  const { sentinelRef } = useInfiniteScroll({
-    onLoadMore: loadMore,
-    loading,
-    hasMore,
-    rootMargin: '400px',
   });
 
   const virtualizer = useVirtualizer({
@@ -61,43 +53,41 @@ export default function VirtualizedPostList({
         ref={parentRef}
         className="flex-1 overflow-auto"
       >
-        <div
-          style={{
-            height: `${virtualizer.getTotalSize()}px`,
-            width: '100%',
-            position: 'relative',
-          }}
+        <InfiniteScrollContainer
+          onLoadMore={loadMore}
+          loading={loading}
+          hasMore={hasMore}
+          endMessage="End of posts"
+          rootMargin="400px"
         >
-          {virtualItems.map((virtualItem) => (
-            <div
-              key={posts[virtualItem.index].id}
-              ref={virtualizer.measureElement}
-              data-index={virtualItem.index}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                transform: `translateY(${virtualItem.start}px)`,
-              }}
-            >
-              <PostItem
-                post={posts[virtualItem.index]}
-                rank={virtualItem.index + 1}
-              />
-            </div>
-          ))}
-        </div>
-
-        <div ref={sentinelRef} className="h-px" aria-hidden="true" />
-
-        {loading && <LoadingIndicator />}
-
-        {!hasMore && posts.length > 0 && (
-          <div className="py-2 text-center text-xs text-gray-400">
-            End of posts
+          <div
+            style={{
+              height: `${virtualizer.getTotalSize()}px`,
+              width: '100%',
+              position: 'relative',
+            }}
+          >
+            {virtualItems.map((virtualItem) => (
+              <div
+                key={posts[virtualItem.index].id}
+                ref={virtualizer.measureElement}
+                data-index={virtualItem.index}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  transform: `translateY(${virtualItem.start}px)`,
+                }}
+              >
+                <PostItem
+                  post={posts[virtualItem.index]}
+                  rank={virtualItem.index + 1}
+                />
+              </div>
+            ))}
           </div>
-        )}
+        </InfiniteScrollContainer>
       </div>
     </div>
   );
