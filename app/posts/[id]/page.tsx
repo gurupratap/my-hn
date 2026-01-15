@@ -12,6 +12,9 @@ import BackButton from '../../../components/BackButton';
 import PostDetail from '../../../components/PostDetail';
 import CommentList from '../../../components/CommentList';
 
+// Force Node.js runtime for jsdom/DOMPurify compatibility
+export const runtime = 'nodejs';
+
 const COMMENTS_PAGE_SIZE = 10;
 
 interface PostPageProps {
