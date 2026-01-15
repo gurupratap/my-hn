@@ -39,9 +39,9 @@ module.exports = async () => {
   const jestConfig = await createJestConfig(customJestConfig)();
   return {
     ...jestConfig,
-    // Transform ESM modules used by MSW
+    // Transform ESM modules used by MSW and marked
     transformIgnorePatterns: [
-      '/node_modules/(?!(msw|@mswjs|until-async|@bundled-es-modules)/)',
+      '/node_modules/(?!(msw|@mswjs|until-async|@bundled-es-modules|marked)/)',
     ],
   };
 };

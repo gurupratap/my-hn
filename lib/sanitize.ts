@@ -12,6 +12,7 @@
  */
 
 import DOMPurify, { type Config } from 'isomorphic-dompurify';
+import { marked } from 'marked';
 
 /**
  * DOMPurify configuration for safe HTML rendering
@@ -61,22 +62,23 @@ DOMPurify.addHook('afterSanitizeAttributes', (node) => {
 });
 
 /**
- * Sanitize HTML content to prevent XSS attacks
+ * Parse markdown to HTML and then sanitize it to prevent XSS attacks
  *
- * @param html - The HTML string to sanitize
+ * @param text - The text that may contain markdown formatting or HTML
  * @returns Sanitized HTML string safe for rendering with dangerouslySetInnerHTML
  *
  * @example
  * ```ts
- * const userContent = '<script>alert("xss")</script><p>Hello</p>';
- * const safe = sanitizeHtml(userContent);
- * // Returns: '<p>Hello</p>'
+ * const userContent = '*bold* and <script>alert("xss")</script>';
+ * const safe = parseAndSanitize(userContent);
+ * // Returns: '<p><em>bold</em> and </p>'
  * ```
  */
-export function sanitizeHtml(html: string): string {
-  if (!html || typeof html !== 'string') {
+export function parseAndSanitize(text: string): string {
+  if (!text || typeof text !== 'string') {
     return '';
   }
 
+  const html = marked.parse(text, { async: false }) as string;
   return DOMPurify.sanitize(html, DOMPURIFY_CONFIG);
 }
