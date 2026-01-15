@@ -3,8 +3,8 @@
 /**
  * useComments Hook
  *
- * Client-side hook for fetching and managing comments state.
- * Provides loading, error, and data states with refetch capability.
+ * Client-side hook for managing comments with load more functionality.
+ * Supports SSR hydration via initialComments prop.
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -13,85 +13,91 @@ import { type Comment } from '../domain/models';
 interface UseCommentsParams {
   /** Post ID to fetch comments for */
   postId: number;
-  /** Maximum depth for nested comments */
-  maxDepth?: number;
+  /** Initial comments from server (SSR hydration) */
+  initialComments: Comment[];
+  /** Whether there are more comments to load initially */
+  initialHasMore: boolean;
+  /** Number of comments per page */
+  pageSize?: number;
 }
 
 interface UseCommentsResult {
-  /** Array of fetched comments (nested tree) */
+  /** Array of comments */
   comments: Comment[];
-  /** Whether comments are currently being fetched */
+  /** Whether comments are being fetched */
   loading: boolean;
-  /** Error object if fetch failed */
-  error: Error | null;
-  /** Refetch comments */
-  refetch: () => Promise<void>;
+  /** Whether there are more comments to load */
+  hasMore: boolean;
+  /** Load the next page of comments */
+  loadMore: () => Promise<void>;
 }
 
 /**
  * Recursively converts date strings to Date objects in comment tree.
  */
-function convertCommentDates(comments: Comment[]): Comment[] {
-  return comments.map((comment) => ({
+function convertCommentDates(comment: Comment): Comment {
+  return {
     ...comment,
     createdAt: new Date(comment.createdAt),
-    children: convertCommentDates(comment.children),
-  }));
+    children: comment.children.map(convertCommentDates),
+  };
 }
 
 /**
- * Hook for fetching comments for a post.
- *
- * @param params - Configuration options
- * @returns Comments state and control functions
- *
- * @example
- * const { comments, loading, error, refetch } = useComments({ postId: 123 });
+ * Hook for managing comments with pagination and SSR support.
  */
-export function useComments(params: UseCommentsParams): UseCommentsResult {
-  const { postId, maxDepth = 3 } = params;
+export function useComments({
+  postId,
+  initialComments,
+  initialHasMore,
+  pageSize = 10,
+}: UseCommentsParams): UseCommentsResult {
+  const [comments, setComments] = useState<Comment[]>(initialComments);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(initialHasMore);
 
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  // Reset state when postId or initialComments change
+  useEffect(() => {
+    setComments(initialComments);
+    setPage(1);
+    setHasMore(initialHasMore);
+  }, [postId]);
 
-  const fetchComments = useCallback(async () => {
+  const loadMore = useCallback(async () => {
+    if (loading || !hasMore) return;
+
     setLoading(true);
-    setError(null);
 
     try {
+      const nextPage = page + 1;
       const response = await fetch(
-        `/api/posts/${postId}/comments?maxDepth=${maxDepth}`
+        `/api/comments?postId=${postId}&page=${nextPage}&pageSize=${pageSize}`
       );
 
       if (!response.ok) {
         throw new Error(`Failed to fetch comments: ${response.status}`);
       }
 
-      const data: Comment[] = await response.json();
+      const data = await response.json();
+      const newComments: Comment[] = data.comments;
+      const commentsWithDates = newComments.map(convertCommentDates);
 
-      // Convert date strings back to Date objects
-      setComments(convertCommentDates(data));
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('Unknown error'));
+      // Deduplicate comments by ID
+      setComments((prev) => {
+        const existingIds = new Set(prev.map((c) => c.id));
+        const uniqueNewComments = commentsWithDates.filter((c) => !existingIds.has(c.id));
+        return [...prev, ...uniqueNewComments];
+      });
+
+      setPage(nextPage);
+      setHasMore(data.hasMore);
+    } catch (error) {
+      console.error('Failed to load more comments:', error);
     } finally {
       setLoading(false);
     }
-  }, [postId, maxDepth]);
+  }, [loading, hasMore, page, postId, pageSize]);
 
-  // Fetch on mount and when params change
-  useEffect(() => {
-    fetchComments();
-  }, [fetchComments]);
-
-  const refetch = useCallback(async () => {
-    await fetchComments();
-  }, [fetchComments]);
-
-  return {
-    comments,
-    loading,
-    error,
-    refetch,
-  };
+  return { comments, loading, hasMore, loadMore };
 }

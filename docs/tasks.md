@@ -492,68 +492,68 @@
 | 5.1.9 | **Test:** Preserves safe HTML (p, a, code) | milestones M5.1 | ✅ |
 | 5.1.10 | **Test:** Handles XSS payloads | milestones M5.1 | ✅ |
 
-### M5.2 — Post Detail Page
+### M5.2 — Post Detail Page ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 5.2.1 | Create `app/posts/[id]/page.tsx` as server component | prd pages |
-| 5.2.2 | Validate post ID is numeric | production-checklist §8 |
-| 5.2.3 | Return 404 for invalid IDs | production-checklist §8 |
-| 5.2.4 | Fetch post using `postsService.getPostById()` | milestones M5.2 |
-| 5.2.5 | Fetch comments using `commentsService.getCommentsByPostId()` | milestones M5.2 |
-| 5.2.6 | Render `PostDetail` component | milestones M5.2 |
-| 5.2.7 | Render `CommentList` component | milestones M5.2 |
-| 5.2.8 | Create `app/posts/[id]/loading.tsx` | milestones M5.2 |
-| 5.2.9 | Create `app/posts/[id]/error.tsx` | production-checklist §3 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 5.2.1 | Create `app/posts/[id]/page.tsx` as server component | prd pages | ✅ |
+| 5.2.2 | Validate post ID is numeric | production-checklist §8 | ✅ |
+| 5.2.3 | Return 404 for invalid IDs | production-checklist §8 | ✅ |
+| 5.2.4 | Fetch post using `postsService.getPostById()` | milestones M5.2 | ✅ |
+| 5.2.5 | Fetch comments using `commentsService.getCommentsByPostId()` | milestones M5.2 | ✅ |
+| 5.2.6 | Render `PostDetail` component | milestones M5.2 | ✅ |
+| 5.2.7 | Render `CommentList` component | milestones M5.2 | ✅ |
+| 5.2.8 | Create `app/posts/[id]/loading.tsx` | milestones M5.2 | ✅ |
+| 5.2.9 | Create `app/posts/[id]/error.tsx` | production-checklist §3 | ✅ |
 
-### M5.3 — PostDetail Component
+### M5.3 — PostDetail Component ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 5.3.1 | Create `components/PostDetail.tsx` | prd components |
-| 5.3.2 | Accept `post: Post` prop | prd components |
-| 5.3.3 | Display title | prd scope |
-| 5.3.4 | Display URL as link (if external) | prd scope |
-| 5.3.5 | Display text content (if text post) | prd scope |
-| 5.3.6 | Display author name | prd scope |
-| 5.3.7 | Display points count | prd scope |
-| 5.3.8 | Display posted time | prd scope |
-| 5.3.9 | Display comment count | prd scope |
-| 5.3.10 | Style with Tailwind | prd scope |
-| 5.3.11 | Create `tests/components/PostDetail.test.tsx` | milestones M5.3 |
-| 5.3.12 | **Test:** All fields rendered correctly | milestones M5.3 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 5.3.1 | Create `components/PostDetail.tsx` | prd components | ✅ |
+| 5.3.2 | Accept `post: Post` prop | prd components | ✅ |
+| 5.3.3 | Display title | prd scope | ✅ |
+| 5.3.4 | Display URL as link (if external) | prd scope | ✅ |
+| 5.3.5 | Display text content (if text post) | prd scope | ✅ |
+| 5.3.6 | Display author name | prd scope | ✅ |
+| 5.3.7 | Display points count | prd scope | ✅ |
+| 5.3.8 | Display posted time | prd scope | ✅ |
+| 5.3.9 | Display comment count | prd scope | ✅ |
+| 5.3.10 | Style with Tailwind | prd scope | ✅ |
+| 5.3.11 | Create `tests/components/PostDetail.test.tsx` | milestones M5.3 | |
+| 5.3.12 | **Test:** All fields rendered correctly | milestones M5.3 | |
 
-### M5.4 — CommentList Component
+### M5.4 — CommentList Component ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 5.4.1 | Create `components/CommentList.tsx` | prd components |
-| 5.4.2 | Accept `comments: Comment[]` prop | prd components |
-| 5.4.3 | Render list of `CommentItem` components | prd components |
-| 5.4.4 | Handle empty comments state | milestones M5.4 |
-| 5.4.5 | Create `tests/components/CommentList.test.tsx` | milestones M5.4 |
-| 5.4.6 | **Test:** Renders correct number of comments | milestones M5.4 |
-| 5.4.7 | **Test:** Nested comments render correctly | milestones M5.4 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 5.4.1 | Create `components/CommentList.tsx` | prd components | ✅ |
+| 5.4.2 | Accept `comments: Comment[]` prop | prd components | ✅ |
+| 5.4.3 | Render list of `CommentItem` components | prd components | ✅ |
+| 5.4.4 | Handle empty comments state | milestones M5.4 | ✅ |
+| 5.4.5 | Create `tests/components/CommentList.test.tsx` | milestones M5.4 | |
+| 5.4.6 | **Test:** Renders correct number of comments | milestones M5.4 | |
+| 5.4.7 | **Test:** Nested comments render correctly | milestones M5.4 | |
 
-### M5.5 — CommentItem Component
+### M5.5 — CommentItem Component ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 5.5.1 | Create `components/CommentItem.tsx` (client component) | prd components |
-| 5.5.2 | Accept `comment: Comment` prop | prd components |
-| 5.5.3 | Display author name | prd scope |
-| 5.5.4 | Display relative time | prd scope |
-| 5.5.5 | Display sanitized comment text using `dangerouslySetInnerHTML` | production-checklist §8 |
-| 5.5.6 | Call `sanitizeHtml()` before rendering | production-checklist §8 |
-| 5.5.7 | Implement collapse/expand state using `useState` | prd scope |
-| 5.5.8 | Add collapse/expand toggle button | prd scope |
-| 5.5.9 | Render nested `CommentList` for children | prd components |
-| 5.5.10 | Apply indentation based on nesting level | prd scope |
-| 5.5.11 | Style with Tailwind | prd scope |
-| 5.5.12 | Create `tests/components/CommentItem.test.tsx` | milestones M5.5 |
-| 5.5.13 | **Test:** Collapse button hides children | milestones M5.5 |
-| 5.5.14 | **Test:** Expand button shows children | milestones M5.5 |
-| 5.5.15 | **Test:** HTML is sanitized before rendering | milestones M5.5 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 5.5.1 | Create `components/CommentItem.tsx` (client component) | prd components | ✅ |
+| 5.5.2 | Accept `comment: Comment` prop | prd components | ✅ |
+| 5.5.3 | Display author name | prd scope | ✅ |
+| 5.5.4 | Display relative time | prd scope | ✅ |
+| 5.5.5 | Display sanitized comment text using `dangerouslySetInnerHTML` | production-checklist §8 | ✅ |
+| 5.5.6 | Call `sanitizeHtml()` before rendering | production-checklist §8 | ✅ |
+| 5.5.7 | Implement collapse/expand state using `useState` | prd scope | ✅ |
+| 5.5.8 | Add collapse/expand toggle button | prd scope | ✅ |
+| 5.5.9 | Render nested `CommentList` for children | prd components | ✅ |
+| 5.5.10 | Apply indentation based on nesting level | prd scope | ✅ |
+| 5.5.11 | Style with Tailwind | prd scope | ✅ |
+| 5.5.12 | Create `tests/components/CommentItem.test.tsx` | milestones M5.5 | |
+| 5.5.13 | **Test:** Collapse button hides children | milestones M5.5 | |
+| 5.5.14 | **Test:** Expand button shows children | milestones M5.5 | |
+| 5.5.15 | **Test:** HTML is sanitized before rendering | milestones M5.5 | |
 
 ### M5 Acceptance Checklist
 

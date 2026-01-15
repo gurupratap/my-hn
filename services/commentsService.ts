@@ -121,3 +121,44 @@ export async function getCommentsByPostId(
 export async function getComments(params: GetCommentsParams): Promise<Comment[]> {
   return getCommentsByPostId(params.postId, params.maxDepth);
 }
+
+/**
+ * Fetches paginated top-level comments for a post.
+ *
+ * @param postId - Post ID to fetch comments for
+ * @param page - Page number (1-indexed, default: 1)
+ * @param pageSize - Number of top-level comments per page (default: 10)
+ * @param maxDepth - Maximum nesting depth (default: 3)
+ * @returns Object with comments array, total count, and hasMore flag
+ */
+export async function getCommentsPaginated(
+  postId: number,
+  page: number = 1,
+  pageSize: number = 10,
+  maxDepth: number = DEFAULT_MAX_DEPTH
+): Promise<{ comments: Comment[]; totalComments: number; hasMore: boolean }> {
+  const adapter = getAdapter();
+
+  // Fetch the post to get top-level comment IDs
+  const post = await adapter.getPostById(postId);
+  const totalComments = post.commentIds.length;
+
+  if (totalComments === 0) {
+    return { comments: [], totalComments: 0, hasMore: false };
+  }
+
+  // Calculate pagination bounds
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const paginatedIds = post.commentIds.slice(startIndex, endIndex);
+  const hasMore = endIndex < totalComments;
+
+  if (paginatedIds.length === 0) {
+    return { comments: [], totalComments, hasMore: false };
+  }
+
+  // Fetch comments for this page
+  const comments = await fetchCommentsRecursive(paginatedIds, 1, maxDepth);
+
+  return { comments, totalComments, hasMore };
+}

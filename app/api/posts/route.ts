@@ -7,23 +7,10 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchPosts, type SortType } from '../../../services/postsService';
+import { parseIntParam, isValidPage, isValidPageSize } from '../../../lib/apiUtils';
 
 function isValidSort(sort: string | null): sort is SortType {
   return sort === 'top' || sort === 'new' || sort === 'best';
-}
-
-function parseIntParam(value: string | null, defaultValue: number): number {
-  if (!value) return defaultValue;
-  const parsed = parseInt(value, 10);
-  return isNaN(parsed) ? defaultValue : parsed;
-}
-
-function isValidPage(page: number): boolean {
-  return page >= 1;
-}
-
-function isValidPageSize(pageSize: number): boolean {
-  return pageSize >= 1 && pageSize <= 100;
 }
 
 /**
