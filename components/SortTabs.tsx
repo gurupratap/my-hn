@@ -21,26 +21,28 @@ export default function SortTabs({
   activeSort,
 }: SortTabsProps): React.ReactElement {
   return (
-    <nav className="mb-4 flex gap-1" aria-label="Sort posts">
-      {SORT_OPTIONS.map(({ value, label }) => {
-        const isActive = activeSort === value;
-        const href = value === 'top' ? '/' : `/?sort=${value}`;
+    <nav className="shrink-0 bg-gray-100 py-2" aria-label="Sort posts">
+      <div className="mx-auto flex max-w-4xl gap-1 px-4">
+        {SORT_OPTIONS.map(({ value, label }) => {
+          const isActive = activeSort === value;
+          const href = value === 'top' ? '/' : `/?sort=${value}`;
 
-        return (
-          <Link
-            key={value}
-            href={href}
-            className={`rounded px-3 py-1.5 text-sm font-medium transition-colors ${
-              isActive
-                ? 'bg-orange-500 text-white'
-                : 'text-gray-600 hover:bg-gray-200'
-            }`}
-            aria-current={isActive ? 'page' : undefined}
-          >
-            {label}
-          </Link>
-        );
-      })}
+          return (
+            <Link
+              key={value}
+              href={href}
+              className={`rounded px-3 py-1.5 text-sm font-medium transition-colors ${
+                isActive
+                  ? 'bg-orange-500 text-white'
+                  : 'text-gray-600 hover:bg-gray-200'
+              }`}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              {label}
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }

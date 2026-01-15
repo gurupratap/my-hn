@@ -32,9 +32,9 @@ export default async function HomePage({
   const posts = await fetchPosts({ sort, pageSize: 20, page: 1 });
 
   return (
-    <main className="min-h-screen bg-gray-100">
-      <div className="mx-auto max-w-4xl px-4 py-6">
-        <SortTabs activeSort={sort} />
+    <main className="flex min-h-0 flex-1 flex-col bg-gray-100">
+      <SortTabs activeSort={sort} />
+      <div className="mx-auto flex min-h-0 w-full max-w-4xl flex-1 flex-col px-4 pb-2">
         <VirtualizedPostList initialPosts={posts} sort={sort} pageSize={20} />
       </div>
     </main>

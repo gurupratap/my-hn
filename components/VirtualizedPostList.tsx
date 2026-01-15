@@ -56,11 +56,10 @@ export default function VirtualizedPostList({
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
       <div
         ref={parentRef}
-        className="overflow-auto"
-        style={{ height: 'calc(100vh - 180px)' }}
+        className="flex-1 overflow-auto"
       >
         <div
           style={{
@@ -95,8 +94,8 @@ export default function VirtualizedPostList({
         {loading && <LoadingIndicator />}
 
         {!hasMore && posts.length > 0 && (
-          <div className="py-4 text-center text-sm text-gray-500">
-            No more posts to load
+          <div className="py-2 text-center text-xs text-gray-400">
+            End of posts
           </div>
         )}
       </div>
