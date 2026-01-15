@@ -477,20 +477,20 @@
 
 ## M5: Post Detail & Comments
 
-### M5.1 — HTML Sanitization
+### M5.1 — HTML Sanitization ✅
 
-| # | Task | Spec Reference |
-|---|------|----------------|
-| 5.1.1 | Install isomorphic-dompurify: `npm install isomorphic-dompurify` | production-checklist §8 |
-| 5.1.2 | Install jsdom for server-side: `npm install jsdom` | production-checklist §8 |
-| 5.1.3 | Create `lib/sanitize.ts` | production-checklist §8 |
-| 5.1.4 | Implement `sanitizeHtml(html: string): string` | production-checklist §8 |
-| 5.1.5 | Configure DOMPurify options (strip scripts, etc.) | production-checklist §8 |
-| 5.1.6 | Create `tests/lib/sanitize.test.ts` | milestones M5.1 |
-| 5.1.7 | **Test:** Removes script tags | milestones M5.1 |
-| 5.1.8 | **Test:** Removes onclick handlers | milestones M5.1 |
-| 5.1.9 | **Test:** Preserves safe HTML (p, a, code) | milestones M5.1 |
-| 5.1.10 | **Test:** Handles XSS payloads | milestones M5.1 |
+| # | Task | Spec Reference | Status |
+|---|------|----------------|--------|
+| 5.1.1 | Install isomorphic-dompurify: `npm install isomorphic-dompurify` | production-checklist §8 | ✅ |
+| 5.1.2 | Install jsdom for server-side: `npm install jsdom` | production-checklist §8 | ✅ |
+| 5.1.3 | Create `lib/sanitize.ts` | production-checklist §8 | ✅ |
+| 5.1.4 | Implement `sanitizeHtml(html: string): string` | production-checklist §8 | ✅ |
+| 5.1.5 | Configure DOMPurify options (strip scripts, etc.) | production-checklist §8 | ✅ |
+| 5.1.6 | Create `tests/lib/sanitize.test.ts` | milestones M5.1 | ✅ |
+| 5.1.7 | **Test:** Removes script tags | milestones M5.1 | ✅ |
+| 5.1.8 | **Test:** Removes onclick handlers | milestones M5.1 | ✅ |
+| 5.1.9 | **Test:** Preserves safe HTML (p, a, code) | milestones M5.1 | ✅ |
+| 5.1.10 | **Test:** Handles XSS payloads | milestones M5.1 | ✅ |
 
 ### M5.2 — Post Detail Page
 
