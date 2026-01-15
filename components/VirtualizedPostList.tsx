@@ -1,0 +1,105 @@
+'use client';
+
+import { useRef } from 'react';
+import { useVirtualizer } from '@tanstack/react-virtual';
+import type { Post } from '../domain/models';
+import type { SortType } from '../services/postsService';
+import { usePosts } from '../hooks/usePosts';
+import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import PostItem from './PostItem';
+import LoadingIndicator from './LoadingIndicator';
+
+interface VirtualizedPostListProps {
+  initialPosts: Post[];
+  sort: SortType;
+  pageSize?: number;
+}
+
+const ESTIMATED_ITEM_HEIGHT = 90;
+
+export default function VirtualizedPostList({
+  initialPosts,
+  sort,
+  pageSize = 20,
+}: VirtualizedPostListProps) {
+  const parentRef = useRef<HTMLDivElement>(null);
+
+  const { posts, loading, hasMore, loadMore } = usePosts({
+    initialPosts,
+    sort,
+    pageSize,
+  });
+
+  const { sentinelRef } = useInfiniteScroll({
+    onLoadMore: loadMore,
+    loading,
+    hasMore,
+    rootMargin: '400px',
+  });
+
+  const virtualizer = useVirtualizer({
+    count: posts.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => ESTIMATED_ITEM_HEIGHT,
+    overscan: 5,
+    measureElement: (element) => element.getBoundingClientRect().height,
+  });
+
+  const virtualItems = virtualizer.getVirtualItems();
+
+  if (posts.length === 0) {
+    return (
+      <div className="rounded-lg border border-gray-200 bg-white px-4 py-8 text-center text-gray-500">
+        No posts available
+      </div>
+    );
+  }
+
+  return (
+    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+      <div
+        ref={parentRef}
+        className="overflow-auto"
+        style={{ height: 'calc(100vh - 180px)' }}
+      >
+        <div
+          style={{
+            height: `${virtualizer.getTotalSize()}px`,
+            width: '100%',
+            position: 'relative',
+          }}
+        >
+          {virtualItems.map((virtualItem) => (
+            <div
+              key={posts[virtualItem.index].id}
+              ref={virtualizer.measureElement}
+              data-index={virtualItem.index}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                transform: `translateY(${virtualItem.start}px)`,
+              }}
+            >
+              <PostItem
+                post={posts[virtualItem.index]}
+                rank={virtualItem.index + 1}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div ref={sentinelRef} className="h-px" aria-hidden="true" />
+
+        {loading && <LoadingIndicator />}
+
+        {!hasMore && posts.length > 0 && (
+          <div className="py-4 text-center text-sm text-gray-500">
+            No more posts to load
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

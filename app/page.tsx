@@ -6,7 +6,7 @@
  */
 
 import { fetchPosts, type SortType } from '../services/postsService';
-import PostListWithLoadMore from '../components/PostListWithLoadMore';
+import VirtualizedPostList from '../components/VirtualizedPostList';
 import SortTabs from '../components/SortTabs';
 
 interface HomePageProps {
@@ -29,13 +29,13 @@ export default async function HomePage({
   const params = await searchParams;
   const sort = parseSortParam(params.sort);
 
-  const posts = await fetchPosts({ sort, pageSize: 30, page: 1 });
+  const posts = await fetchPosts({ sort, pageSize: 20, page: 1 });
 
   return (
     <main className="min-h-screen bg-gray-100">
       <div className="mx-auto max-w-4xl px-4 py-6">
         <SortTabs activeSort={sort} />
-        <PostListWithLoadMore initialPosts={posts} sort={sort} pageSize={30} />
+        <VirtualizedPostList initialPosts={posts} sort={sort} pageSize={20} />
       </div>
     </main>
   );
