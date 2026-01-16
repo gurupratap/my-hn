@@ -1,7 +1,7 @@
 /**
  * HTML Sanitization Module
  *
- * Provides secure HTML sanitization using DOMPurify to prevent XSS attacks.
+ * Provides secure HTML sanitization using sanitize-html to prevent XSS attacks.
  * Used primarily for rendering user-generated content like comments.
  *
  * Security features:
@@ -11,15 +11,15 @@
  * - Preserves safe HTML elements (p, a, code, pre, em, strong, etc.)
  */
 
-import DOMPurify, { type Config } from 'isomorphic-dompurify';
+import sanitizeHtml from 'sanitize-html';
 import { marked } from 'marked';
 
 /**
- * DOMPurify configuration for safe HTML rendering
+ * sanitize-html configuration for safe HTML rendering
  * Only allows a whitelist of safe tags and attributes
  */
-const DOMPURIFY_CONFIG: Config = {
-  ALLOWED_TAGS: [
+const SANITIZE_CONFIG: sanitizeHtml.IOptions = {
+  allowedTags: [
     'a',
     'b',
     'blockquote',
@@ -34,32 +34,23 @@ const DOMPURIFY_CONFIG: Config = {
     'strong',
     'ul',
   ],
-  ALLOWED_ATTR: ['href', 'rel', 'target'],
-  ALLOW_DATA_ATTR: false,
-  ADD_ATTR: ['target', 'rel'],
-  FORBID_TAGS: ['script', 'style', 'iframe', 'form', 'input', 'object', 'embed'],
-  FORBID_ATTR: [
-    'onerror',
-    'onclick',
-    'onload',
-    'onmouseover',
-    'onfocus',
-    'onblur',
-    'onchange',
-    'onsubmit',
-  ],
+  allowedAttributes: {
+    a: ['href', 'target', 'rel'],
+  },
+  allowedSchemes: ['http', 'https', 'mailto'],
+  transformTags: {
+    // Add rel="noopener noreferrer" and target="_blank" to all links
+    // for security (prevents tabnabbing attacks)
+    a: (tagName, attribs) => ({
+      tagName,
+      attribs: {
+        ...attribs,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      },
+    }),
+  },
 };
-
-/**
- * Hook to add rel="noopener noreferrer" and target="_blank" to all links
- * for security (prevents tabnabbing attacks)
- */
-DOMPurify.addHook('afterSanitizeAttributes', (node) => {
-  if (node.tagName === 'A') {
-    node.setAttribute('target', '_blank');
-    node.setAttribute('rel', 'noopener noreferrer');
-  }
-});
 
 /**
  * Parse markdown to HTML and then sanitize it to prevent XSS attacks
@@ -80,5 +71,5 @@ export function parseAndSanitize(text: string): string {
   }
 
   const html = marked.parse(text, { async: false }) as string;
-  return DOMPurify.sanitize(html, DOMPURIFY_CONFIG);
+  return sanitizeHtml(html, SANITIZE_CONFIG);
 }

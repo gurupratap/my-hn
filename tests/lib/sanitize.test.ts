@@ -155,7 +155,7 @@ describe('parseAndSanitize', () => {
       const text = 'Line 1<br>Line 2';
       const result = parseAndSanitize(text);
 
-      expect(result).toContain('<br>');
+      expect(result).toContain('<br />');
     });
 
     it('preserves lists (ul, ol, li)', () => {
@@ -181,6 +181,23 @@ describe('parseAndSanitize', () => {
       const result = parseAndSanitize(text);
 
       expect(result).toContain('<strong><em>Bold and italic</em></strong>');
+    });
+
+    it('preserves b and i tags', () => {
+      const text = '<b>bold</b> and <i>italic</i>';
+      const result = parseAndSanitize(text);
+
+      expect(result).toContain('<b>bold</b>');
+      expect(result).toContain('<i>italic</i>');
+    });
+
+    it('preserves ordered lists (ol)', () => {
+      const text = '<ol><li>First</li><li>Second</li></ol>';
+      const result = parseAndSanitize(text);
+
+      expect(result).toContain('<ol>');
+      expect(result).toContain('<li>First</li>');
+      expect(result).toContain('</ol>');
     });
   });
 
@@ -269,6 +286,64 @@ describe('parseAndSanitize', () => {
 
       expect(result).not.toContain('onerror');
       expect(result).not.toContain('alert');
+    });
+
+    it('removes ftp: URLs', () => {
+      const text = '<a href="ftp://files.example.com">FTP Link</a>';
+      const result = parseAndSanitize(text);
+
+      expect(result).not.toContain('ftp:');
+      expect(result).toContain('FTP Link');
+    });
+
+    it('removes file: URLs', () => {
+      const text = '<a href="file:///etc/passwd">File Link</a>';
+      const result = parseAndSanitize(text);
+
+      expect(result).not.toContain('file:');
+      expect(result).toContain('File Link');
+    });
+
+    it('removes style attributes from allowed tags', () => {
+      const text = '<p style="color:red;display:none">Styled text</p>';
+      const result = parseAndSanitize(text);
+
+      expect(result).not.toContain('style=');
+      expect(result).not.toContain('color:red');
+      expect(result).toContain('Styled text');
+    });
+
+    it('removes class and id attributes from allowed tags', () => {
+      const text = '<p class="evil" id="malicious">Text</p>';
+      const result = parseAndSanitize(text);
+
+      expect(result).not.toContain('class=');
+      expect(result).not.toContain('id=');
+      expect(result).toContain('Text');
+    });
+  });
+
+  describe('handles allowed URL schemes', () => {
+    it('preserves mailto: links', () => {
+      const text = '<a href="mailto:test@example.com">Email</a>';
+      const result = parseAndSanitize(text);
+
+      expect(result).toContain('href="mailto:test@example.com"');
+      expect(result).toContain('Email');
+    });
+
+    it('preserves http: links', () => {
+      const text = '<a href="http://example.com">HTTP Link</a>';
+      const result = parseAndSanitize(text);
+
+      expect(result).toContain('href="http://example.com"');
+    });
+
+    it('preserves https: links', () => {
+      const text = '<a href="https://example.com">HTTPS Link</a>';
+      const result = parseAndSanitize(text);
+
+      expect(result).toContain('href="https://example.com"');
     });
   });
 
