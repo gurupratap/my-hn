@@ -22,9 +22,9 @@ export default function PostItem({
   const detailUrl = `/posts/${post.id}`;
 
   return (
-    <article className="flex gap-2 border-b border-gray-200 px-4 py-3 last:border-b-0">
+    <article className="flex items-start gap-2 border-b border-gray-200 px-4 py-3 last:border-b-0">
       {/* Rank */}
-      <span className="w-8 flex-shrink-0 text-right text-sm text-gray-500">
+      <span className="w-8 flex-shrink-0 text-right text-sm leading-6 text-gray-500">
         {rank}.
       </span>
 

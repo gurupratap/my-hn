@@ -14,10 +14,13 @@ export default function RootLayout({
 }>): React.ReactElement {
   return (
     <html lang="en">
-      <body className="flex h-screen flex-col overflow-hidden">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+      </head>
+      <body className="flex h-dvh flex-col overflow-hidden">
         <Navbar />
         <div className="flex min-h-0 flex-1 flex-col">{children}</div>
-        <footer className="shrink-0 bg-white py-3 text-center text-sm text-gray-500 border-t border-gray-200">
+        <footer className="flex h-12 shrink-0 items-center justify-center border-t border-gray-200 bg-white text-[clamp(0.625rem,2.5vw,0.875rem)] text-gray-500">
           <p>
             Powered by{" "}
             <a

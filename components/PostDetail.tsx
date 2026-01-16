@@ -58,10 +58,12 @@ export default function PostDetail({
 
       {/* Text content (for text posts) */}
       {post.text && (
-        <div
-          className="prose prose-sm max-w-none border-t border-gray-100 pt-4 text-gray-800"
-          dangerouslySetInnerHTML={{ __html: parseAndSanitize(post.text) }}
-        />
+        <div className="max-h-[30vh] overflow-y-auto overflow-x-hidden border-t border-gray-100 pt-4">
+          <div
+            className="prose prose-sm min-w-0 max-w-none break-words text-gray-800"
+            dangerouslySetInnerHTML={{ __html: parseAndSanitize(post.text) }}
+          />
+        </div>
       )}
     </article>
   );

@@ -44,14 +44,14 @@ export default function CommentList({
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-b-lg border border-gray-200 bg-white">
-      <div className="flex-1 overflow-auto">
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-b-lg border border-gray-200 bg-white">
+      <div className="min-w-0 flex-1 overflow-y-auto overflow-x-hidden">
         <InfiniteScrollContainer
           onLoadMore={loadMore}
           loading={loading}
           hasMore={hasMore}
           endMessage="End of comments"
-          className="divide-y divide-gray-100 px-4"
+          className="min-w-0 divide-y divide-gray-100 px-4"
         >
           {comments.map((comment) => (
             <CommentItem key={comment.id} comment={comment} depth={0} />

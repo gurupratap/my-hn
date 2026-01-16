@@ -58,7 +58,7 @@ function CommentHeader({
 function CommentBody({ comment }: { comment: Comment }): React.ReactElement {
   return (
     <div
-      className="prose prose-sm max-w-none text-gray-800"
+      className="prose prose-sm max-w-none break-words text-gray-800"
       dangerouslySetInnerHTML={{ __html: parseAndSanitize(comment.text) }}
     />
   );
@@ -92,8 +92,8 @@ export default function CommentItem({
   const marginLeft = depth > 0 ? `${indentLevel * 4}px` : '0';
 
   return (
-    <div className={containerClass} style={{ marginLeft }}>
-      <div className="py-3">
+    <div className={`min-w-0 ${containerClass}`} style={{ marginLeft }}>
+      <div className="min-w-0 py-3">
         <CommentHeader
           comment={comment}
           isCollapsed={isCollapsed}
