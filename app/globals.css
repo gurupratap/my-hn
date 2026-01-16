@@ -22,3 +22,21 @@ body {
 .prose a:hover {
   color: #1d4ed8; /* blue-700 */
 }
+
+/* Ensure all text wraps properly on small screens */
+.prose {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.prose pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.prose code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
