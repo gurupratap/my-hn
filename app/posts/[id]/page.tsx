@@ -8,6 +8,7 @@
 import { notFound } from 'next/navigation';
 import { getPostById } from '../../../services/postsService';
 import { getCommentsPaginated } from '../../../services/commentsService';
+import { NotFoundError } from '../../../lib/errors';
 import BackButton from '../../../components/BackButton';
 import PostDetail from '../../../components/PostDetail';
 import CommentList from '../../../components/CommentList';
@@ -41,10 +42,20 @@ export default async function PostPage({
   const postId = parseInt(id, 10);
 
   // Fetch post and initial comments in parallel
-  const [post, commentsResult] = await Promise.all([
-    getPostById(postId),
-    getCommentsPaginated(postId, 1, COMMENTS_PAGE_SIZE),
-  ]);
+  let post;
+  let commentsResult;
+
+  try {
+    [post, commentsResult] = await Promise.all([
+      getPostById(postId),
+      getCommentsPaginated(postId, 1, COMMENTS_PAGE_SIZE),
+    ]);
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      notFound();
+    }
+    throw error;
+  }
 
   return (
     <main className="flex min-h-0 flex-1 flex-col bg-gray-100">

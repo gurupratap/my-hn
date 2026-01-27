@@ -168,7 +168,12 @@ export const hackerNewsAdapter: Adapter = {
 
   async getPostsByIds(ids: number[]): Promise<Post[]> {
     return timeCall('hn.getPostsByIds', async () => {
-      return Promise.all(ids.map((id) => hackerNewsAdapter.getPostById(id)));
+      const results = await Promise.allSettled(
+        ids.map((id) => hackerNewsAdapter.getPostById(id))
+      );
+      return results
+        .filter((r): r is PromiseFulfilledResult<Post> => r.status === 'fulfilled')
+        .map((r) => r.value);
     });
   },
 
