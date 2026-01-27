@@ -12,6 +12,8 @@ import BackButton from '../../../components/BackButton';
 import PostDetail from '../../../components/PostDetail';
 import CommentList from '../../../components/CommentList';
 
+export const revalidate = 300;
+
 const COMMENTS_PAGE_SIZE = 6;
 
 interface PostPageProps {

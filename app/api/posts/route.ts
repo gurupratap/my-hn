@@ -39,7 +39,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   try {
     const posts = await fetchPosts({ sort, page, pageSize });
-    return NextResponse.json(posts);
+    return NextResponse.json(posts, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
+      },
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json({ error: `Failed to fetch posts: ${message}` }, { status: 500 });

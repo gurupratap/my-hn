@@ -9,6 +9,8 @@ import { fetchPosts, type SortType } from '../services/postsService';
 import VirtualizedPostList from '../components/VirtualizedPostList';
 import SortTabs from '../components/SortTabs';
 
+export const revalidate = 60;
+
 const POSTS_PAGE_SIZE = 10;
 
 interface HomePageProps {

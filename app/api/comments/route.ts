@@ -48,7 +48,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   try {
     const result = await getCommentsPaginated(postId, page, pageSize);
-    return NextResponse.json(result);
+    return NextResponse.json(result, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300',
+      },
+    });
   } catch (error) {
     if (error instanceof NotFoundError) {
       return NextResponse.json({ error: 'Comments not found for the given post' }, { status: 404 });
