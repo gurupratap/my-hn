@@ -19,9 +19,9 @@ export default function PostDetail({
   const domain = post.url ? extractDomain(post.url) : null;
 
   return (
-    <article className="shrink-0 rounded-t-lg border border-b-0 border-gray-200 bg-white p-4">
+    <article className="shrink-0 rounded-t-lg border border-b-0 border-gray-200 bg-white p-3">
       {/* Title */}
-      <h1 className="mb-2 text-xl font-semibold text-gray-900">
+      <h1 className="mb-1 text-base font-semibold text-gray-900 sm:text-lg">
         {post.url ? (
           <a
             href={post.url}
@@ -42,7 +42,7 @@ export default function PostDetail({
       </h1>
 
       {/* Meta line */}
-      <div className="mb-4 flex flex-wrap gap-x-2 text-sm text-gray-600">
+      <div className="mb-2 flex flex-wrap gap-x-2 text-sm text-gray-600">
         <span>{post.points} points</span>
         <span className="text-gray-400">|</span>
         <span>by {post.author}</span>
@@ -58,7 +58,7 @@ export default function PostDetail({
 
       {/* Text content (for text posts) */}
       {post.text && (
-        <div className="max-h-[30vh] overflow-y-auto overflow-x-hidden border-t border-gray-100 pt-4">
+        <div className="max-h-[20vh] overflow-y-auto overflow-x-hidden border-t border-gray-100 pt-2">
           <div
             className="prose prose-sm min-w-0 max-w-none break-words text-gray-800"
             dangerouslySetInnerHTML={{ __html: parseAndSanitize(post.text) }}
