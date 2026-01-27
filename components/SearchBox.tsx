@@ -221,7 +221,7 @@ export default function SearchBox(): React.ReactElement {
             if (results.length > 0) setIsOpen(true);
           }}
           placeholder="Search..."
-          className="w-32 rounded border border-orange-300 bg-white px-2 py-1 text-sm text-gray-900 placeholder-gray-500 focus:w-48 focus:border-orange-500 focus:outline-none sm:w-40 sm:focus:w-56 transition-all"
+          className="w-32 rounded border border-orange-300 bg-white px-2 py-1 text-base text-gray-900 placeholder-gray-500 focus:w-48 focus:border-orange-500 focus:outline-none sm:w-40 sm:focus:w-56 transition-all"
           aria-label="Search posts"
           role="combobox"
           aria-controls="search-results-listbox"
