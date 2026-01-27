@@ -1,16 +1,17 @@
 /**
  * Navbar Component
  *
- * Main navigation bar with logo and home link.
+ * Main navigation bar with logo, home link, and search.
  * Sort controls are handled by the SortTabs component on the page.
  */
 
 import Link from 'next/link';
+import SearchBox from './SearchBox';
 
 export default function Navbar(): React.ReactElement {
   return (
     <header className="shrink-0 bg-orange-500">
-      <nav className="mx-auto flex max-w-4xl items-center px-4 py-2">
+      <nav className="mx-auto flex max-w-4xl items-center justify-between px-4 py-2">
         {/* Logo and title - links to home */}
         <Link
           href="/"
@@ -20,6 +21,9 @@ export default function Navbar(): React.ReactElement {
             my-hn
           </span>
         </Link>
+
+        {/* Search box */}
+        <SearchBox />
       </nav>
     </header>
   );

@@ -101,6 +101,50 @@ export const config = {
    * Default: 3 retries
    */
   API_RETRY_COUNT: parseIntEnv('API_RETRY_COUNT', 3),
+
+  /**
+   * Typesense host (optional)
+   * Default: localhost
+   */
+  TYPESENSE_HOST: getEnvVar('TYPESENSE_HOST') ?? 'localhost',
+
+  /**
+   * Typesense port (optional)
+   * Default: 8108
+   */
+  TYPESENSE_PORT: parseIntEnv('TYPESENSE_PORT', 8108),
+
+  /**
+   * Typesense protocol (optional)
+   * Default: http
+   */
+  TYPESENSE_PROTOCOL: getEnvVar('TYPESENSE_PROTOCOL') ?? 'http',
+
+  /**
+   * Typesense Admin API key (optional)
+   * Required for admin operations (collection management, indexing).
+   * If not set, ingestion will be disabled.
+   */
+  TYPESENSE_ADMIN_API_KEY: getEnvVar('TYPESENSE_ADMIN_API_KEY'),
+
+  /**
+   * Typesense Search API key (optional)
+   * Used for search operations. More restrictive than admin key.
+   * Falls back to admin key if not set.
+   */
+  TYPESENSE_SEARCH_API_KEY: getEnvVar('TYPESENSE_SEARCH_API_KEY'),
+
+  /**
+   * Typesense collection name (optional)
+   * Default: posts
+   */
+  TYPESENSE_COLLECTION: getEnvVar('TYPESENSE_COLLECTION') ?? 'posts',
+
+  /**
+   * Cron secret for protecting ingestion endpoint (optional)
+   * Should be set in production to prevent unauthorized access.
+   */
+  CRON_SECRET: getEnvVar('CRON_SECRET'),
 } as const;
 
 // Type for the config object
@@ -115,4 +159,11 @@ export const {
   CACHE_TTL_SECONDS,
   API_TIMEOUT_MS,
   API_RETRY_COUNT,
+  TYPESENSE_HOST,
+  TYPESENSE_PORT,
+  TYPESENSE_PROTOCOL,
+  TYPESENSE_ADMIN_API_KEY,
+  TYPESENSE_SEARCH_API_KEY,
+  TYPESENSE_COLLECTION,
+  CRON_SECRET,
 } = config;

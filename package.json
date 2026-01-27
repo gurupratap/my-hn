@@ -18,7 +18,9 @@
     "pino": "^10.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "sanitize-html": "^2.17.0"
+    "sanitize-html": "^2.17.0",
+    "server-only": "^0.0.1",
+    "typesense": "^2.1.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
