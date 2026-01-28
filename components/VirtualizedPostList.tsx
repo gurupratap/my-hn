@@ -46,13 +46,18 @@ export default function VirtualizedPostList({
       scrollPositions.current.set(prevSort.current, parentRef.current.scrollTop);
     }
 
-    // Restore current tab's scroll position (or 0 if first visit)
-    if (parentRef.current) {
-      const savedPosition = scrollPositions.current.get(sort) ?? 0;
-      parentRef.current.scrollTop = savedPosition;
-    }
+    // Restore current tab's scroll position after render (or 0 if first visit)
+    // Use requestAnimationFrame to ensure DOM is ready (important for mobile)
+    const rafId = requestAnimationFrame(() => {
+      if (parentRef.current) {
+        const savedPosition = scrollPositions.current.get(sort) ?? 0;
+        parentRef.current.scrollTop = savedPosition;
+      }
+    });
 
     prevSort.current = sort;
+
+    return () => cancelAnimationFrame(rafId);
   }, [sort]);
 
   const virtualItems = virtualizer.getVirtualItems();
