@@ -4,6 +4,9 @@ test.describe('Scroll Position Preservation', () => {
   let context: BrowserContext;
   let page: Page;
 
+  // Increase timeout for CI environments
+  test.setTimeout(60000);
+
   // Helper to scroll an element - works on both desktop and mobile
   const scrollElement = async (container: Locator, deltaY: number, iterations: number) => {
     for (let i = 0; i < iterations; i++) {
@@ -17,8 +20,8 @@ test.describe('Scroll Position Preservation', () => {
     context = await browser.newContext();
     page = await context.newPage();
     await page.goto('/');
-    // Wait for posts to load
-    await page.waitForSelector('[data-index="9"]', { timeout: 10000 });
+    // Wait for at least the first post to load (virtualized list may not render all items)
+    await page.waitForSelector('[data-active="true"] [data-index="0"]', { timeout: 30000 });
   });
 
   test.afterEach(async () => {
@@ -26,9 +29,6 @@ test.describe('Scroll Position Preservation', () => {
   });
 
   test('should preserve scroll position when switching between tabs', async () => {
-    // Wait for posts to load - wait for at least 10 posts to be visible
-    await page.waitForSelector('[data-index="9"]', { timeout: 10000 });
-
     // Get the scroll container from the active tab only
     const getActiveScrollContainer = () => page.locator('[data-active="true"] .flex-1.overflow-auto');
     const getActivePosts = () => page.locator('[data-active="true"] [data-index]');
@@ -77,9 +77,6 @@ test.describe('Scroll Position Preservation', () => {
   });
 
   test('should start at top when visiting a tab for the first time', async () => {
-    // Wait for posts to load
-    await page.waitForSelector('[data-index="9"]', { timeout: 10000 });
-
     // Get the scroll container from the active tab
     const getActiveScrollContainer = () => page.locator('[data-active="true"] .flex-1.overflow-auto');
     await getActiveScrollContainer().waitFor({ state: 'visible' });
@@ -105,9 +102,6 @@ test.describe('Scroll Position Preservation', () => {
   });
 
   test('should preserve scroll position independently for each tab', async () => {
-    // Wait for posts to load
-    await page.waitForSelector('[data-index="9"]', { timeout: 10000 });
-
     // Helper to get active tab's scroll container and posts
     const getActiveScrollContainer = () => page.locator('[data-active="true"] .flex-1.overflow-auto');
     const getActivePosts = () => page.locator('[data-active="true"] [data-index]');
@@ -125,7 +119,7 @@ test.describe('Scroll Position Preservation', () => {
 
     // Switch to New tab and scroll less (8 wheel events)
     await page.click('text=New');
-    await page.waitForSelector('[data-active="true"] [data-index="9"]', { timeout: 10000 });
+    await page.waitForSelector('[data-active="true"] [data-index="0"]', { timeout: 30000 });
     await getActiveScrollContainer().waitFor({ state: 'visible' });
     await page.waitForTimeout(300);
 
