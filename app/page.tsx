@@ -6,7 +6,7 @@
  */
 
 import { fetchPosts, type SortType } from '../services/postsService';
-import VirtualizedPostList from '../components/VirtualizedPostList';
+import PostListContainer from '../components/PostListContainer';
 import SortTabs from '../components/SortTabs';
 
 export const revalidate = 60;
@@ -39,7 +39,7 @@ export default async function HomePage({
     <main className="flex min-h-0 flex-1 flex-col bg-gray-100">
       <SortTabs activeSort={sort} />
       <div className="mx-auto flex min-h-0 w-full max-w-4xl flex-1 flex-col px-4 pb-2">
-        <VirtualizedPostList initialPosts={posts} sort={sort} pageSize={POSTS_PAGE_SIZE} />
+        <PostListContainer initialPosts={posts} activeSort={sort} pageSize={POSTS_PAGE_SIZE} />
       </div>
     </main>
   );

@@ -7,7 +7,7 @@
  * Supports SSR hydration via initialPosts prop.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { type Post } from '../domain/models';
 import { type SortType } from '../services/postsService';
 
@@ -33,23 +33,38 @@ interface UsePostsResult {
 
 /**
  * Hook for managing posts with pagination and SSR support.
+ * With mounted tabs architecture, each tab has its own hook instance
+ * that persists as long as the component stays mounted.
  */
 export function usePosts({
   initialPosts,
   sort,
   pageSize = 30,
 }: UsePostsParams): UsePostsResult {
-  const [posts, setPosts] = useState<Post[]>(initialPosts);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(initialPosts.length === pageSize);
+  // Track if we've been initialized - prevents resetting on subsequent prop changes
+  const hasInitialized = useRef(false);
 
-  // Reset state when sort or initialPosts change (navigation)
+  const [posts, setPosts] = useState<Post[]>(() => {
+    if (initialPosts.length > 0) {
+      hasInitialized.current = true;
+      return initialPosts;
+    }
+    return [];
+  });
+  const [page, setPage] = useState(initialPosts.length > 0 ? 1 : 0);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(initialPosts.length === 0 || initialPosts.length === pageSize);
+
+  // Initialize ONCE when we first receive data (for tabs that start empty)
+  // This runs when PostListContainer updates initializedTabs for a newly visited tab
   useEffect(() => {
-    setPosts(initialPosts);
-    setPage(1);
-    setHasMore(initialPosts.length === pageSize);
-  }, [sort, initialPosts, pageSize]);
+    if (!hasInitialized.current && initialPosts.length > 0) {
+      hasInitialized.current = true;
+      setPosts(initialPosts);
+      setPage(1);
+      setHasMore(initialPosts.length === pageSize);
+    }
+  }, [initialPosts, pageSize]);
 
   const loadMore = useCallback(async () => {
     if (loading || !hasMore) return;

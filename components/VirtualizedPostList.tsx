@@ -1,6 +1,14 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+/**
+ * VirtualizedPostList Component
+ *
+ * Renders a virtualized list of posts using @tanstack/react-virtual.
+ * Scroll position is preserved naturally since each tab has its own
+ * DOM container (managed by PostListContainer).
+ */
+
+import { useRef } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import type { Post } from '../domain/models';
 import type { SortType } from '../services/postsService';
@@ -22,8 +30,6 @@ export default function VirtualizedPostList({
   pageSize = 20,
 }: VirtualizedPostListProps) {
   const parentRef = useRef<HTMLDivElement>(null);
-  const scrollPositions = useRef<Map<SortType, number>>(new Map());
-  const prevSort = useRef<SortType>(sort);
 
   const { posts, loading, hasMore, loadMore } = usePosts({
     initialPosts,
@@ -38,27 +44,6 @@ export default function VirtualizedPostList({
     overscan: 5,
     measureElement: (element) => element.getBoundingClientRect().height,
   });
-
-  // Save/restore scroll position per sort tab
-  useEffect(() => {
-    // Save previous tab's scroll position
-    if (parentRef.current && prevSort.current !== sort) {
-      scrollPositions.current.set(prevSort.current, parentRef.current.scrollTop);
-    }
-
-    // Restore current tab's scroll position after render (or 0 if first visit)
-    // Use requestAnimationFrame to ensure DOM is ready (important for mobile)
-    const rafId = requestAnimationFrame(() => {
-      if (parentRef.current) {
-        const savedPosition = scrollPositions.current.get(sort) ?? 0;
-        parentRef.current.scrollTop = savedPosition;
-      }
-    });
-
-    prevSort.current = sort;
-
-    return () => cancelAnimationFrame(rafId);
-  }, [sort]);
 
   const virtualItems = virtualizer.getVirtualItems();
 
