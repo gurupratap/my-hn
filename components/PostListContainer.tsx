@@ -10,7 +10,7 @@
  * - Provides instant tab switches after first visit
  */
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import type { Post } from '../domain/models';
 import type { SortType } from '../services/postsService';
 import VirtualizedPostList from './VirtualizedPostList';
@@ -30,25 +30,27 @@ export default function PostListContainer({
   initialPosts,
   activeSort,
   pageSize = 20,
-}: PostListContainerProps) {
-  // Track which tabs have been visited and their initial posts
-  // Using refs to avoid re-renders when other tabs update
-  const visitedTabs = useRef<Set<SortType>>(new Set([activeSort]));
-  const tabPosts = useRef<Record<SortType, Post[]>>({
+}: PostListContainerProps): React.JSX.Element {
+  // State for posts per tab
+  const [tabPosts, setTabPosts] = useState<Record<SortType, Post[]>>(() => ({
     top: activeSort === 'top' ? initialPosts : [],
     new: activeSort === 'new' ? initialPosts : [],
     best: activeSort === 'best' ? initialPosts : [],
-  });
+  }));
 
-  // Force re-render only when needed
-  const [, forceUpdate] = useState(0);
+  // Track which tabs have been initialized
+  const [initializedTabs, setInitializedTabs] = useState<Set<SortType>>(
+    () => new Set([activeSort])
+  );
 
-  // Only initialize a tab's data on FIRST visit
-  if (initialPosts.length > 0 && !visitedTabs.current.has(activeSort)) {
-    visitedTabs.current.add(activeSort);
-    tabPosts.current[activeSort] = initialPosts;
-    // Force re-render to show the new tab's posts
-    forceUpdate((n) => n + 1);
+  // React's recommended pattern for adjusting state when props change
+  // See: https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes
+  if (initialPosts.length > 0 && !initializedTabs.has(activeSort)) {
+    setInitializedTabs(new Set([...initializedTabs, activeSort]));
+    setTabPosts({
+      ...tabPosts,
+      [activeSort]: initialPosts,
+    });
   }
 
   return (
@@ -63,7 +65,7 @@ export default function PostListContainer({
           }`}
         >
           <VirtualizedPostList
-            initialPosts={tabPosts.current[sort]}
+            initialPosts={tabPosts[sort]}
             sort={sort}
             pageSize={pageSize}
           />
