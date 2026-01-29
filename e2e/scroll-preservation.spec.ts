@@ -1,8 +1,16 @@
-import { test, expect, BrowserContext, Page } from '@playwright/test';
+import { test, expect, BrowserContext, Page, Locator } from '@playwright/test';
 
 test.describe('Scroll Position Preservation', () => {
   let context: BrowserContext;
   let page: Page;
+
+  // Helper to scroll an element - works on both desktop and mobile
+  const scrollElement = async (container: Locator, deltaY: number, iterations: number) => {
+    for (let i = 0; i < iterations; i++) {
+      await container.evaluate((el, dy) => el.scrollBy(0, dy), deltaY);
+      await page.waitForTimeout(50);
+    }
+  };
 
   // Create a fresh browser context for each test to ensure complete isolation
   test.beforeEach(async ({ browser }) => {
@@ -29,11 +37,7 @@ test.describe('Scroll Position Preservation', () => {
     await getActiveScrollContainer().waitFor({ state: 'visible' });
 
     // Scroll to a specific post by scrolling the container
-    await getActiveScrollContainer().hover();
-    for (let i = 0; i < 15; i++) {
-      await page.mouse.wheel(0, 100);
-      await page.waitForTimeout(50);
-    }
+    await scrollElement(getActiveScrollContainer(), 100, 15);
 
     // Wait for scroll and virtualizer to settle
     await page.waitForTimeout(500);
@@ -80,12 +84,8 @@ test.describe('Scroll Position Preservation', () => {
     const getActiveScrollContainer = () => page.locator('[data-active="true"] .flex-1.overflow-auto');
     await getActiveScrollContainer().waitFor({ state: 'visible' });
 
-    // Scroll down using mouse wheel on Top tab
-    await getActiveScrollContainer().hover();
-    for (let i = 0; i < 15; i++) {
-      await page.mouse.wheel(0, 100);
-      await page.waitForTimeout(50);
-    }
+    // Scroll down on Top tab
+    await scrollElement(getActiveScrollContainer(), 100, 15);
     await page.waitForTimeout(300);
 
     // Switch to "New" tab (first time visiting)
@@ -114,12 +114,8 @@ test.describe('Scroll Position Preservation', () => {
 
     await getActiveScrollContainer().waitFor({ state: 'visible' });
 
-    // Scroll Top tab down (15 wheel events)
-    await getActiveScrollContainer().hover();
-    for (let i = 0; i < 15; i++) {
-      await page.mouse.wheel(0, 100);
-      await page.waitForTimeout(50);
-    }
+    // Scroll Top tab down
+    await scrollElement(getActiveScrollContainer(), 100, 15);
     await page.waitForTimeout(300);
 
     // Get the visible index for Top tab
@@ -133,11 +129,7 @@ test.describe('Scroll Position Preservation', () => {
     await getActiveScrollContainer().waitFor({ state: 'visible' });
     await page.waitForTimeout(300);
 
-    await getActiveScrollContainer().hover();
-    for (let i = 0; i < 8; i++) {
-      await page.mouse.wheel(0, 100);
-      await page.waitForTimeout(50);
-    }
+    await scrollElement(getActiveScrollContainer(), 100, 10);
     await page.waitForTimeout(500);
 
     // Get the visible index for New tab

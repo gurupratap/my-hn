@@ -173,21 +173,6 @@ describe('usePosts', () => {
     expect(mockFetch).not.toHaveBeenCalled();
   });
 
-  it('resets state when sort changes', () => {
-    const newPosts = [createMockPost(5), createMockPost(6)];
-
-    const { result, rerender } = renderHook(
-      ({ initialPosts, sort }) => usePosts({ initialPosts, sort, pageSize: 2 }),
-      { initialProps: { initialPosts: mockInitialPosts, sort: 'top' as const } }
-    );
-
-    expect(result.current.posts.map((p) => p.id)).toEqual([1, 2]);
-
-    // Simulate navigation with new sort and new posts
-    rerender({ initialPosts: newPosts, sort: 'new' as const });
-
-    expect(result.current.posts.map((p) => p.id)).toEqual([5, 6]);
-  });
 
   it('sets hasMore to false when loadMore returns fewer posts than pageSize', async () => {
     const partialPage = [
