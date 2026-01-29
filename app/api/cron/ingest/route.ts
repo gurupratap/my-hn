@@ -15,7 +15,8 @@ import {
 import { CRON_SECRET } from '../../../../lib/config';
 import { logger } from '../../../../lib/logger';
 
-const POSTS_PER_CATEGORY = 100;
+// HN API returns up to 500 story IDs per endpoint
+const POSTS_PER_CATEGORY = 500;
 
 /**
  * Verify the request is authorized using CRON_SECRET.
