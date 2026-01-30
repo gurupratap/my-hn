@@ -7,12 +7,36 @@ test.describe('Scroll Position Preservation', () => {
   // Increase timeout for CI environments
   test.setTimeout(60000);
 
-  // Helper to scroll an element - works on both desktop and mobile
-  const scrollElement = async (container: Locator, deltaY: number, iterations: number) => {
+  // Helper to wait for scroll container to be scrollable
+  const waitForScrollable = async (container: Locator) => {
+    await container.waitFor({ state: 'visible' });
+    // Wait for the container to have scrollable content
+    await expect(async () => {
+      const isScrollable = await container.evaluate(
+        (el) => el.scrollHeight > el.clientHeight
+      );
+      expect(isScrollable).toBe(true);
+    }).toPass({ timeout: 10000 });
+  };
+
+  // Helper to scroll and verify the scroll actually worked
+  const scrollAndVerify = async (
+    container: Locator,
+    deltaY: number,
+    iterations: number,
+    expectedMinScroll: number
+  ) => {
+    // Scroll the container
     for (let i = 0; i < iterations; i++) {
       await container.evaluate((el, dy) => el.scrollBy(0, dy), deltaY);
       await page.waitForTimeout(50);
     }
+    // Wait for scroll to settle and verify it worked
+    await page.waitForTimeout(200);
+    await expect(async () => {
+      const scrollTop = await container.evaluate((el) => el.scrollTop);
+      expect(scrollTop).toBeGreaterThanOrEqual(expectedMinScroll);
+    }).toPass({ timeout: 5000 });
   };
 
   // Create a fresh browser context for each test to ensure complete isolation
@@ -33,14 +57,14 @@ test.describe('Scroll Position Preservation', () => {
     const getActiveScrollContainer = () => page.locator('[data-active="true"] .flex-1.overflow-auto');
     const getActivePosts = () => page.locator('[data-active="true"] [data-index]');
 
-    // Wait for the container to be ready
-    await getActiveScrollContainer().waitFor({ state: 'visible' });
+    // Wait for the container to be scrollable
+    await waitForScrollable(getActiveScrollContainer());
 
-    // Scroll to a specific post by scrolling the container
-    await scrollElement(getActiveScrollContainer(), 100, 15);
+    // Scroll and verify it worked
+    await scrollAndVerify(getActiveScrollContainer(), 100, 15, 500);
 
-    // Wait for scroll and virtualizer to settle
-    await page.waitForTimeout(500);
+    // Wait for virtualizer to settle
+    await page.waitForTimeout(300);
 
     const visiblePosts = await getActivePosts().all();
     const firstVisibleIndex = await visiblePosts[0].getAttribute('data-index');
@@ -53,15 +77,15 @@ test.describe('Scroll Position Preservation', () => {
     await page.click('text=New');
 
     // Wait for new tab content to load
-    await page.waitForTimeout(500);
-    await page.waitForSelector('[data-active="true"] [data-index]');
+    await page.waitForSelector('[data-active="true"] [data-index="0"]', { timeout: 30000 });
+    await page.waitForTimeout(300);
 
     // Switch back to "Top" tab
     await page.click('text=Top');
 
     // Wait for content - scroll position is preserved naturally in mounted DOM
     await page.waitForSelector('[data-active="true"] [data-index]');
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(300);
 
     // Get the first visible post index after returning
     const visiblePostsAfter = await getActivePosts().all();
@@ -79,26 +103,26 @@ test.describe('Scroll Position Preservation', () => {
   test('should start at top when visiting a tab for the first time', async () => {
     // Get the scroll container from the active tab
     const getActiveScrollContainer = () => page.locator('[data-active="true"] .flex-1.overflow-auto');
-    await getActiveScrollContainer().waitFor({ state: 'visible' });
 
-    // Scroll down on Top tab
-    await scrollElement(getActiveScrollContainer(), 100, 15);
+    // Wait for the container to be scrollable
+    await waitForScrollable(getActiveScrollContainer());
+
+    // Scroll down on Top tab and verify
+    await scrollAndVerify(getActiveScrollContainer(), 100, 15, 500);
     await page.waitForTimeout(300);
 
     // Switch to "New" tab (first time visiting)
     await page.click('text=New');
 
-    // Wait for content to load
-    await page.waitForTimeout(500);
-    await page.waitForSelector('[data-active="true"] [data-index]');
+    // Wait for new tab content to fully load - must wait for index 0 specifically
+    await page.waitForSelector('[data-active="true"] [data-index="0"]', { timeout: 30000 });
+    await page.waitForTimeout(300);
 
-    // Get visible posts from the active (New) tab only
-    const visiblePosts = await page.locator('[data-active="true"] [data-index]').all();
-    const firstVisibleIndex = await visiblePosts[0].getAttribute('data-index');
-    const visibleIndex = parseInt(firstVisibleIndex || '0', 10);
+    // Verify the New tab's scroll container is at the top
+    const newTabScrollTop = await getActiveScrollContainer().evaluate((el) => el.scrollTop);
 
-    // First visit to a tab should start at the top (index 0-2)
-    expect(visibleIndex).toBeLessThanOrEqual(2);
+    // First visit to a tab should start at the top (scrollTop near 0)
+    expect(newTabScrollTop).toBeLessThanOrEqual(50);
   });
 
   test('should preserve scroll position independently for each tab', async () => {
@@ -106,10 +130,11 @@ test.describe('Scroll Position Preservation', () => {
     const getActiveScrollContainer = () => page.locator('[data-active="true"] .flex-1.overflow-auto');
     const getActivePosts = () => page.locator('[data-active="true"] [data-index]');
 
-    await getActiveScrollContainer().waitFor({ state: 'visible' });
+    // Wait for scroll container to be scrollable
+    await waitForScrollable(getActiveScrollContainer());
 
-    // Scroll Top tab down
-    await scrollElement(getActiveScrollContainer(), 100, 15);
+    // Scroll Top tab down and verify
+    await scrollAndVerify(getActiveScrollContainer(), 100, 15, 500);
     await page.waitForTimeout(300);
 
     // Get the visible index for Top tab
@@ -117,14 +142,15 @@ test.describe('Scroll Position Preservation', () => {
     const topTabIndex = parseInt((await visiblePosts[0].getAttribute('data-index')) || '0', 10);
     expect(topTabIndex).toBeGreaterThan(5); // Verify we scrolled
 
-    // Switch to New tab and scroll less (8 wheel events)
+    // Switch to New tab and scroll less
     await page.click('text=New');
     await page.waitForSelector('[data-active="true"] [data-index="0"]', { timeout: 30000 });
-    await getActiveScrollContainer().waitFor({ state: 'visible' });
+    await waitForScrollable(getActiveScrollContainer());
     await page.waitForTimeout(300);
 
-    await scrollElement(getActiveScrollContainer(), 100, 10);
-    await page.waitForTimeout(500);
+    // Scroll New tab and verify
+    await scrollAndVerify(getActiveScrollContainer(), 100, 10, 300);
+    await page.waitForTimeout(300);
 
     // Get the visible index for New tab
     visiblePosts = await getActivePosts().all();
@@ -134,12 +160,12 @@ test.describe('Scroll Position Preservation', () => {
     // Switch to Best tab (don't scroll - stay at top)
     await page.click('text=Best');
     await page.waitForSelector('[data-active="true"] [data-index]');
-    await page.waitForTimeout(200);
+    await page.waitForTimeout(300);
 
     // Now go back to Top tab - scroll position is preserved in mounted DOM
     await page.click('text=Top');
     await page.waitForSelector('[data-active="true"] [data-index]');
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(300);
 
     visiblePosts = await getActivePosts().all();
     const topTabIndexRestored = parseInt((await visiblePosts[0].getAttribute('data-index')) || '0', 10);
@@ -151,7 +177,7 @@ test.describe('Scroll Position Preservation', () => {
     // Go to New tab - scroll position is preserved in mounted DOM
     await page.click('text=New');
     await page.waitForSelector('[data-active="true"] [data-index]');
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(300);
 
     visiblePosts = await getActivePosts().all();
     const newTabIndexRestored = parseInt((await visiblePosts[0].getAttribute('data-index')) || '0', 10);
